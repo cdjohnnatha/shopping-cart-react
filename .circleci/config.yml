@@ -22,6 +22,8 @@ jobs:
           command: npm run test:coverage
       - store_test_results:
           path: coverage
+      - store_artifacts:
+          path: coverage
 workflows:
   react-app:
     jobs:
@@ -30,6 +32,7 @@ workflows:
             branches:
               only:  # only branches matching the below regex filters will run
                 - main
+                - staging
 
 
 
