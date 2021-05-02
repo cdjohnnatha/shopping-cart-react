@@ -21,8 +21,11 @@ jobs:
           name: Run Tests
           command: npm run test:coverage
       - store_artifacts:
-          path: coverage/test_coverage.xml
+          path: coverage/
           prefix: tests
+      - store_test_results:
+          path: coverage/test_coverage.xml
+          prefix: test_coverage
 workflows:
   react-app:
     jobs:
