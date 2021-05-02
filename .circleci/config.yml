@@ -24,8 +24,7 @@ jobs:
           path: coverage/
           prefix: tests
       - store_test_results:
-          path: coverage/test_coverage.xml
-          prefix: test_coverage
+          path: coverage/
 workflows:
   react-app:
     jobs:
