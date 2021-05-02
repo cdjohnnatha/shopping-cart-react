@@ -1,6 +1,7 @@
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from 'react-dom/test-utils';
 import { MemoryRouter } from "react-router-dom";
+import history from '../../../config/history';
 
 import Root from '../../../hoc/Root';
 
@@ -24,21 +25,19 @@ const renderRouter = (element, container, initialEntires) => render(
   container
 );
 
-// it("Index page must exist", async () => {
-//   act(() => {
-//     renderRouter(<RootView />, container, ['/']);
-//   });
+describe('Pages navigation', () => {
+  it("Index page must exist", async () => {
+    act(() => {
+      renderRouter(<Root />, container, ['/']);
+    });
 
-//   // Check correct page content showed up
-//   expect(document.body.textContent).toBe('Root view');
-// });
-
-it("Should ignore other routes with 404", async () => {
-  act(() => {
-    renderRouter(<Root />, container, ['/yrdy']);
+    // Check correct page content showed up
+    expect(document.body.textContent).toBe('Root view');
   });
 
-  // Check correct page content showed up
-  console.log('[document.body]', document.body.textContent);
-  expect(document.body.textContent).toBe('Not Found');
+  test('landing on a bad page', () => {
+    history.push('/some/bad/route')
+    render(<Root />, container);
+    expect(document.body.textContent).toBe('Not Found');
+  });
 });

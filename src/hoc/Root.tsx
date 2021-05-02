@@ -8,9 +8,11 @@ import history from '../config/history';
 const Root = () => {
   return (
     <React.StrictMode>
-      <Router history={history}>
-        <RenderRoutes routes={routes} />
-      </Router>
+      <main>
+        <Router history={history}>
+          <RenderRoutes routes={routes} />
+        </Router>
+      </main>
     </React.StrictMode>
   );
 }
