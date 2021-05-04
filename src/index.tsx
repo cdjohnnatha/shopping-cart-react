@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import Root from './hoc/Root';
-
+import 'index.css';
 
 
 ReactDOM.render(<Root />, document.getElementById('root'));

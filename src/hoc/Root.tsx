@@ -5,12 +5,14 @@ import routes from '../config/routes';
 import RenderRoutes from './Routes/RenderRoutes';
 import history from '../config/history';
 import ErrorBoundary from './ErrorBoundary';
+import TopBar from '../components/topBar/TopBar';
 
 const Root = () => {
   return (
     <React.StrictMode>
       <main>
         <ErrorBoundary>
+          <TopBar />
           <Router history={history}>
             <RenderRoutes routes={routes} />
           </Router>
