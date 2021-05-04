@@ -28,7 +28,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "src/**/*.test.js"
   ],
   "exclude": [
     "node_modules",
