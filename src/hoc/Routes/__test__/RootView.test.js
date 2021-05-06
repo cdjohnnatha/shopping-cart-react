@@ -33,12 +33,17 @@ describe('Pages navigation', () => {
     });
 
     // Check correct page content showed up
-    expect(document.body.textContent).toBe('Root view');
+    const pageTitle = document.querySelector("h1");
+    expect(pageTitle.textContent).toBe('Products available');
   });
 
   test('landing on a bad page', () => {
-    history.push('/some/bad/route')
-    render(<Root />, container);
-    expect(document.body.textContent).toBe('Not Found');
+    history.push('/some/bad/route');
+    act(() => {
+      render(<Root />, container);
+    });
+    const pageTitle = document.querySelector("h1");
+
+    expect(pageTitle.textContent).toBe('Not Found');
   });
 });
