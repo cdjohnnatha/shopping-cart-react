@@ -1,37 +1,37 @@
 import React, { MouseEventHandler } from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import ImageCard from '../../../components/card/ImageCard';
+import ImageCard from '../card/ImageCard';
 
-export interface ProductImages {
+export interface ProductImagesInterface {
   path: string,
   tags: string,
   size: string,
   type: string,
 };
 
-export interface Product {
+export interface ProductInterface {
   name: string,
   quantityAvailable: number,
   category: string,
   description: string,
   price: number,
-  images: Array<ProductImages>;
+  images: Array<ProductImagesInterface>;
 };
 
 interface ProductProps {
-  productList: Array<Product>;
+  productList?: Array<ProductInterface>;
   onAddCartClickHandler: MouseEventHandler<HTMLButtonElement>;
 }
 
 export function Products({ productList, onAddCartClickHandler }: ProductProps): JSX.Element {
-  const productsList = productList.map(({
+  const productsList = productList?.map(({
     images,
     ...product
   }, index) => {
-    const [image] = images.filter((image) => image.type === 'list');
+    const [image] = images.filter((image) => image.type === 'LIST');
     return (
-      <Grid item xs={4} key={`product-list-${product.name}-${index}`}>
+      <Grid item xs={4} key={`product-list-${product.name}-${index}`} className="products-elements">
         <ImageCard
           title={product.name}
           description={product.description}

@@ -15,26 +15,31 @@
     "@types/react-dom": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "babel-plugin-relay": "^11.0.2",
+    "customize-cra": "^1.0.0",
     "eslint": "^7.25.0",
     "eslint-plugin-react": "^7.23.2",
     "history": "^5.0.0",
     "jest-junit": "^12.0.0",
     "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
     "react-dom": "^17.0.2",
     "react-relay": "^11.0.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "relay-runtime": "^11.0.2",
     "typescript": "^4.2.4",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "graphql": "^15.5.0"
   },
   "scripts": {
-    "start": "npm run relay && react-scripts start",
-    "build": "npm run relay && react-scripts build",
-    "relay": "relay-compiler --schema schema.graphql --src ./src/ --watchman false $@",
-    "test": "react-scripts test",
+    "start": "npm run relay && react-app-rewired start",
+    "build": "npm run relay && react-app-rewired build",
+    "relay": "relay-compiler --src ./src --schema schema.graphql",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "test:coverage": " JEST_JUNIT_OUTPUT_DIR='./coverage' JEST_JUNIT_OUTPUT_NAME='test_coverage.xml' react-scripts test --ci --reporters=default --reporters=jest-junit"
+    "test:coverage": " JEST_JUNIT_OUTPUT_DIR='./coverage' JEST_JUNIT_OUTPUT_NAME='test_coverage.xml' react-scripts test --ci --reporters=default --reporters=jest-junit",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
     "extends": [
@@ -55,11 +60,17 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.21.4",
+    "@graphql-codegen/introspection": "1.18.2",
+    "@graphql-codegen/schema-ast": "^1.18.2",
+    "@graphql-codegen/typescript": "1.22.0",
+    "@graphql-codegen/typescript-operations": "1.17.16",
+    "@graphql-codegen/typescript-react-apollo": "2.2.4",
     "@types/react-router-dom": "^5.1.7",
-    "babel-plugin-relay": "^11.0.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "graphql": "^15.5.0",
     "prettier": "^2.2.1",
     "relay-compiler": "^11.0.2",
     "relay-config": "^11.0.2"

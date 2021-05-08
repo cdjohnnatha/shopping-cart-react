@@ -1,11 +1,9 @@
-async function graphqlService(text: string, variables: unknown) {
-  const REACT_APP_GITHUB_AUTH_TOKEN = process.env.REACT_APP_GITHUB_AUTH_TOKEN;
-
+async function graphqlService(text: unknown, variables: unknown) {
   // Fetch data from GitHub's GraphQL API:
-  const response = await fetch('https://api.github.com/graphql', {
+  const response = await fetch('http://localhost:3000/api', {
     method: 'POST',
     headers: {
-      Authorization: `bearer ${REACT_APP_GITHUB_AUTH_TOKEN}`,
+      // Authorization: `bearer ${REACT_APP_GITHUB_AUTH_TOKEN}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({

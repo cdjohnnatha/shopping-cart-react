@@ -10,18 +10,16 @@ import TopBar from '../components/topBar/TopBar';
 
 const Root = (): JSX.Element => {
   return (
-    <React.StrictMode>
-      <main>
-        <ErrorBoundary>
-          <TopBar />
-          <Container fixed>
-            <Router history={history}>
-              <RenderRoutes routes={routes} />
-            </Router>
-          </Container>
-        </ErrorBoundary>
-      </main>
-    </React.StrictMode>
+    <main>
+      <ErrorBoundary>
+        <TopBar />
+        <Container fixed>
+          <Router history={history}>
+            <RenderRoutes routes={routes} />
+          </Router>
+        </Container>
+      </ErrorBoundary>
+    </main>
   );
 }
 

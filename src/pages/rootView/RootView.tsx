@@ -1,20 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from '@material-ui/core/Grid';
-import Pagination from '@material-ui/lab/Pagination';
+import graphqlService from '../../services/graphqlService';
+import { Products, ProductInterface } from '../../components/products/Products';
+import { params } from '../../components/products/__generated__/productsPaginatedQuery.graphql';
+import { Pagination, paginationInitialState, PaginationInterface } from '../../components/pagination/Pagination';
 
-import { Products } from './products/Products';
-import productsMock from './products/__mock__/products.mock';
 
+
+interface ProductsPaginated {
+  products?: [ProductInterface];
+  pagination: PaginationInterface;
+};
+
+const productsPaginatedInitialState = {
+  pagination: paginationInitialState
+}
 
 const RootView = (): JSX.Element => {
+  const [productsPaginated, setProductsPaginated] = useState<ProductsPaginated>(productsPaginatedInitialState);
+
+  const fetchProductsHandler = async (pagination: PaginationInterface) => {
+    try {
+      const variables = {
+        rowsPerPage: pagination.rowsPerPage,
+        currentPage: pagination.currentPage
+      };
+      const graphqlResponse = await graphqlService(params.text, variables);
+      const { productsPaginated } = graphqlResponse.data;
+      setProductsPaginated(productsPaginated);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductsHandler(productsPaginated.pagination);
+  }, []);
+
+  const onChangePageHandler = (newPage: number) => {
+    if (newPage <= productsPaginated.pagination.totalPages) {
+      const updatedPagination = { ...productsPaginated.pagination, currentPage: newPage };
+      fetchProductsHandler(updatedPagination);
+    }
+  }
+
+  const onChangeRowsPerPageHandler = (rowsPerPage: string) => {
+    const updatedPagination = { ...productsPaginated.pagination, rowsPerPage: parseInt(rowsPerPage, 10) };
+    fetchProductsHandler(updatedPagination);
+  }
+
   return (
     <article>
       <h1>Products available</h1>
       <Grid container spacing={2} justify="center">
-        <Products productList={productsMock} />
-        <Grid container alignItems="center" item xs={12} justify="center" style={{ marginTop: '1em', marginBottom: '2em' }}>
-          <Pagination count={3} />
-        </Grid>
+        <Products productList={productsPaginated.products} onAddCartClickHandler={() => console.log('test')} />
+        <Pagination
+          paginationProps={productsPaginated.pagination}
+          onChangePageHandler={onChangePageHandler}
+          onChangeRowsPerPageHandler={({ target }) => onChangeRowsPerPageHandler(target.value)}
+        />
       </Grid>
     </article>
   )

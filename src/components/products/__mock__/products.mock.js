@@ -1,6 +1,6 @@
 const STATIC_IMAGES_PATH = '/images/guitarImages';
 
-export default [
+const mock = [
   {
     name: 'Floyd Rose 1',
     quantityAvailable: 10,
@@ -12,19 +12,19 @@ export default [
         path: `${STATIC_IMAGES_PATH}/floyd-1/1200x395.jpg`,
         tags: 'les-paul',
         size: '1200x395',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-1/320x105.jpg`,
         tags: 'les-paul',
         size: '320x105',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-1/180x59.jpg`,
         tags: 'les-paul',
         size: '180x59',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
@@ -39,19 +39,19 @@ export default [
         path: `${STATIC_IMAGES_PATH}/floyd-2/1200x420.jpg`,
         tags: 'les-paul',
         size: '1200x420',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-2/320x112.jpg`,
         tags: 'les-paul',
         size: '320x112',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-2/180x63.jpg`,
         tags: 'les-paul',
         size: '180x63',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
@@ -66,19 +66,19 @@ export default [
         path: `${STATIC_IMAGES_PATH}/flyInV/1200x395.jpg`,
         tags: 'les-paul',
         size: '1200x395',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/flyInV/320x127.jpg`,
         tags: 'les-paul',
         size: '320x127',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/flyInV/180x71.jpg`,
         tags: 'les-paul',
         size: '180x71',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
@@ -93,19 +93,19 @@ export default [
         path: `${STATIC_IMAGES_PATH}/lespaul/1200x450.jpg`,
         tags: 'les-paul',
         size: '1200x450',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/lespaul/320x120.jpg`,
         tags: 'les-paul',
         size: '320x120',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/lespaul/180x68.jpg`,
         tags: 'les-paul',
         size: '180x68',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
@@ -120,19 +120,19 @@ export default [
         path: `${STATIC_IMAGES_PATH}/floyd-1/1200x395.jpg`,
         tags: 'les-paul',
         size: '1200x395',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-1/320x105.jpg`,
         tags: 'les-paul',
         size: '320x105',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-1/180x59.jpg`,
         tags: 'les-paul',
         size: '180x59',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
@@ -147,19 +147,19 @@ export default [
         path: `${STATIC_IMAGES_PATH}/floyd-2/1200x420.jpg`,
         tags: 'les-paul',
         size: '1200x420',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-2/320x112.jpg`,
         tags: 'les-paul',
         size: '320x112',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/floyd-2/180x63.jpg`,
         tags: 'les-paul',
         size: '180x63',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
@@ -174,19 +174,19 @@ export default [
         path: `${STATIC_IMAGES_PATH}/flyInV/1200x395.jpg`,
         tags: 'les-paul',
         size: '1200x395',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/flyInV/320x127.jpg`,
         tags: 'les-paul',
         size: '320x127',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/flyInV/180x71.jpg`,
         tags: 'les-paul',
         size: '180x71',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
@@ -201,20 +201,50 @@ export default [
         path: `${STATIC_IMAGES_PATH}/lespaul/1200x450.jpg`,
         tags: 'les-paul',
         size: '1200x450',
-        type: 'full',
+        type: 'FULL',
       },
       {
         path: `${STATIC_IMAGES_PATH}/lespaul/320x120.jpg`,
         tags: 'les-paul',
         size: '320x120',
-        type: 'list',
+        type: 'LIST',
       },
       {
         path: `${STATIC_IMAGES_PATH}/lespaul/180x68.jpg`,
         tags: 'les-paul',
         size: '180x68',
-        type: 'thumbnail',
+        type: 'THUMBNAIL',
       },
     ]
   },
 ];
+
+const singleProductSample = {
+  name: 'Les paul model 1',
+  quantityAvailable: 2,
+  category: 'Les Paul',
+  price: 5425.11,
+  description: 'Very usefull guitar',
+  images: [
+    {
+      path: `${STATIC_IMAGES_PATH}/lespaul/1200x450.jpg`,
+      tags: 'les-paul',
+      size: '1200x450',
+      type: 'FULL',
+    },
+    {
+      path: `${STATIC_IMAGES_PATH}/lespaul/320x120.jpg`,
+      tags: 'les-paul',
+      size: '320x120',
+      type: 'LIST',
+    },
+    {
+      path: `${STATIC_IMAGES_PATH}/lespaul/180x68.jpg`,
+      tags: 'les-paul',
+      size: '180x68',
+      type: 'THUMBNAIL',
+    },
+  ]
+};
+
+export default { products: mock, product: singleProductSample };

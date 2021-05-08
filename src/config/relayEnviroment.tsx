@@ -4,8 +4,8 @@ import fetchGraphQL from '../services/graphqlService';
 
 
 interface Params {
-  name: string,
-  text: string,
+  name: unknown,
+  text: unknown,
 }
 // Relay passes a "params" object with the query name and text. So we define a helper function
 // to call our fetchGraphQL utility with params.text.
