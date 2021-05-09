@@ -4,7 +4,7 @@ import { act } from 'react-dom/test-utils';
 import { MemoryRouter } from "react-router-dom";
 
 import Root from '../../../hoc/Root';
-import ProductsMock from '../../../components/products/__mock__/products.mock';
+import ProductsMock from '../../Products/__mock__/products.mock';
 
 let container = null;
 let productsMockData = null;

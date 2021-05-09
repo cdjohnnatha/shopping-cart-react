@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Grid from '@material-ui/core/Grid';
 import graphqlService from '../../services/graphqlService';
-import { Products, ProductInterface } from '../../components/products/Products';
-import { params } from '../../components/products/__generated__/productsPaginatedQuery.graphql';
-import { Pagination, paginationInitialState, PaginationInterface } from '../../components/pagination/Pagination';
+import { Products } from '../Products/ProductsGrid';
+import { ProductInterface } from '../Products/ProductInterface';
+import { params } from '../Products/__generated__/productsPaginatedQuery.graphql';
+import { Pagination, paginationInitialState, PaginationInterface } from '../../layout/Pagination/Pagination';
 
 
 
@@ -53,7 +54,7 @@ const RootView = (): JSX.Element => {
     <article>
       <h1>Products available</h1>
       <Grid container spacing={2} justify="center">
-        <Products productList={productsPaginated.products} onAddCartClickHandler={() => console.log('test')} />
+        <Products productList={productsPaginated.products} />
         <Pagination
           paginationProps={productsPaginated.pagination}
           onChangePageHandler={onChangePageHandler}

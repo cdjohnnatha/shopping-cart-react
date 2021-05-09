@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 // import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+
+import { CartContext } from '../../pages/Cart/context/CartContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,24 +36,16 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface CartProps {
-  cartItemsCount?: number;
-};
-
-interface Props {
-  cartProps?: CartProps;
-};
-
-export default function TopBar({ cartProps }: Props): ReactElement {
+export default function TopBar(): ReactElement {
   const classes = useStyles();
+  const { isCartEmpty, totalCartItems } = useContext(CartContext);
 
   let cartIcon = null;
-  const cartItems = (cartProps?.cartItemsCount?? 0);
-  const hasItemsInCart = cartItems > 0;
+  // const cartItems = (cartProps?.cartItemsCount?? 0);
 
-  if (hasItemsInCart) {
+  if (!isCartEmpty()) {
     cartIcon = (
-      <Badge badgeContent={cartProps?.cartItemsCount} color="secondary">
+      <Badge badgeContent={totalCartItems()} color="secondary">
         <ShoppingCart />
       </Badge>
     );
@@ -67,7 +61,7 @@ export default function TopBar({ cartProps }: Props): ReactElement {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton disabled={!hasItemsInCart} aria-label="cart items" color="inherit">
+            <IconButton disabled={isCartEmpty()} aria-label="cart items" color="inherit">
               {cartIcon}
             </IconButton>
             {/* <IconButton

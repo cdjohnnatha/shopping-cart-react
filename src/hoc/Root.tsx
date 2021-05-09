@@ -6,18 +6,21 @@ import routes from '../config/routes';
 import RenderRoutes from './Routes/RenderRoutes';
 import history from '../config/history';
 import ErrorBoundary from './ErrorBoundary';
-import TopBar from '../components/topBar/TopBar';
+import TopBar from '../layout/TopBar/TopBar';
+import { CartProvider } from '../pages/Cart/context/CartContext';
 
 const Root = (): JSX.Element => {
   return (
     <main>
       <ErrorBoundary>
-        <TopBar />
-        <Container fixed>
-          <Router history={history}>
-            <RenderRoutes routes={routes} />
-          </Router>
-        </Container>
+        <CartProvider>
+          <TopBar />
+          <Container fixed>
+            <Router history={history}>
+              <RenderRoutes routes={routes} />
+            </Router>
+          </Container>
+        </CartProvider>
       </ErrorBoundary>
     </main>
   );

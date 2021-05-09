@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from 'react-dom/test-utils';
 
-import ImageCard from '../../../components/card/ImageCard';
+import ImageCard from '../ImageCard';
 
 let container = null;
 let onChange = null;

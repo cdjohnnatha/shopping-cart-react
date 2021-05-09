@@ -1,4 +1,5 @@
-import RootView from '../../pages/rootView/RootView';
+import RootView from '../../pages/RootView/RootView';
+import Cart from '../../pages/Cart/Cart';
 
 const ROUTES = [
   {
@@ -6,6 +7,12 @@ const ROUTES = [
     key: "ROOT",
     exact: true,
     component: RootView,
+  },
+  {
+    path: "/cart",
+    key: "ROOT",
+    exact: true,
+    component: Cart,
   },
 ];
 
