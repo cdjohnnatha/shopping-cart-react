@@ -1,11 +1,18 @@
 import React from 'react'
 
-const Cart: React.FC = () => {
-    return (
-        <div>
-            <h1>Cart view</h1>
-        </div>
-    )
+import CartItemsGrid from '../../pages/Cart/components/CartItemsGrid';
+import CartGridHeader from './components/CartGridHeader';
+import CartGridBottom from './components/CartGridBottom';
+
+const Cart= (): JSX.Element => {
+  return (
+    <div>
+      <h1>Cart view</h1>
+      <CartGridHeader/>
+      <CartItemsGrid  />
+      <CartGridBottom />
+    </div>
+  )
 }
 
 export default Cart

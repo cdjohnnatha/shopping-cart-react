@@ -17,12 +17,13 @@ export type productsPaginatedQueryResponse = {|
   +productsPaginated: ?{|
     +products: ?$ReadOnlyArray<?{|
       +_id: ?string,
-      +name: ?string,
-      +quantityAvailable: ?number,
-      +category: ?string,
-      +description: ?string,
-      +price: ?number,
-      +images: ?$ReadOnlyArray<?{|
+      +name: string,
+      +quantityAvailable: number,
+      +maxQuantityPerCustomer: number,
+      +category: string,
+      +description: string,
+      +price: number,
+      +images: $ReadOnlyArray<?{|
         +path: ?string,
         +tags: ?string,
         +size: ?string,
@@ -54,6 +55,7 @@ query productsPaginatedQuery(
       _id
       name
       quantityAvailable
+      maxQuantityPerCustomer
       category
       description
       price
@@ -138,6 +140,13 @@ v2 = [
             "args": null,
             "kind": "ScalarField",
             "name": "quantityAvailable",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "maxQuantityPerCustomer",
             "storageKey": null
           },
           {
@@ -270,16 +279,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "20e27551fc18af5fdfbd249044cb9cb3",
+    "cacheID": "88f5907aa4513b145009aa1f97186fb5",
     "id": null,
     "metadata": {},
     "name": "productsPaginatedQuery",
     "operationKind": "query",
-    "text": "query productsPaginatedQuery(\n  $rowsPerPage: Int!\n  $currentPage: Int!\n) {\n  productsPaginated(pagination: {rowsPerPage: $rowsPerPage, currentPage: $currentPage}) {\n    products {\n      _id\n      name\n      quantityAvailable\n      category\n      description\n      price\n      images {\n        path\n        tags\n        size\n        type\n      }\n    }\n    pagination {\n      totalPages\n      totalValues\n      rowsPerPage\n      currentPage\n    }\n  }\n}\n"
+    "text": "query productsPaginatedQuery(\n  $rowsPerPage: Int!\n  $currentPage: Int!\n) {\n  productsPaginated(pagination: {rowsPerPage: $rowsPerPage, currentPage: $currentPage}) {\n    products {\n      _id\n      name\n      quantityAvailable\n      maxQuantityPerCustomer\n      category\n      description\n      price\n      images {\n        path\n        tags\n        size\n        type\n      }\n    }\n    pagination {\n      totalPages\n      totalValues\n      rowsPerPage\n      currentPage\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '8c53049dda15a6d1f45ff5c60e2afe51';
+(node/*: any*/).hash = 'b48f085566334465a0a0cbb8f8dbc9b6';
 
 module.exports = node;

@@ -22,32 +22,33 @@ interface ImgMediaCardProps {
   currency?: string,
 };
 
-export default function ImgMediaCard({ product, currency='R$' }: ImgMediaCardProps): React.ReactElement {
+export default function ImgMediaCard({ product }: ImgMediaCardProps): React.ReactElement {
   const classes = useStyles();
   const { hasProductInCart, addItem, removeItem,  } = useContext(CartContext);
 
 
   const {
-    _id,
+    _id: productId,
     name: title,
     description,
     images,
     price,
+    currency,
   } = product;
 
   let buttonLabel = "Add to cart";
   let onClickButtonHandler = () => addItem(product);
 
-  if (hasProductInCart(_id)) {
+  if (hasProductInCart(productId)) {
     buttonLabel = "Remove from cart";
-    onClickButtonHandler = () => removeItem(_id);
+    onClickButtonHandler = () => removeItem(productId);
   }
   const [image] = images.filter((image: ProductImagesInterface) => image.type === 'LIST');
 
-  const priceLabel = `${currency}: ${price.toFixed(2)}`;
+  const priceLabel = `${currency.label}: ${price.toFixed(2)}`;
   const { path, ...imageProps } = image;
   return (
-    <Card className={classes.root} id={_id} data-testid="cardElement">
+    <Card className={classes.root} id={productId} data-testid="cardElement">
       <CardMedia
         component="img"
         height="140"
@@ -55,19 +56,36 @@ export default function ImgMediaCard({ product, currency='R$' }: ImgMediaCardPro
         {...imageProps}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="h2"
+          id={`image-card-title-${productId}`}
+        >
           {title}
         </Typography>
-        <Typography noWrap variant="body2" color="textSecondary" component="p">
+        <Typography
+          noWrap
+          variant="body2"
+          color="textSecondary"
+          component="p"
+          id={`image-card-description-${productId}`}
+        >
           {description}
         </Typography>
       </CardContent>
       <CardActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Chip variant="outlined" size="small" label={priceLabel} />
+        <Chip
+          variant="outlined"
+          size="small"
+          label={priceLabel}
+          id={`image-card-price-${productId}`}
+        />
         <Button
           size="small"
           color="primary"
           onClick={onClickButtonHandler}
+          id={`btn-action-cart-${productId}`}
         >
           {buttonLabel}
         </Button>

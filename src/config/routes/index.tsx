@@ -10,7 +10,7 @@ const ROUTES = [
   },
   {
     path: "/cart",
-    key: "ROOT",
+    key: "cart",
     exact: true,
     component: Cart,
   },

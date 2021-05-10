@@ -5,12 +5,19 @@ export interface ProductImagesInterface {
   type: string,
 };
 
+export interface Currency {
+  name: string,
+  label: string
+}
+
 export interface ProductInterface {
   _id: string,
   name: string,
   quantityAvailable: number,
+  maxQuantityPerCustomer: number,
   category: string,
   description: string,
   price: number,
   images: Array<ProductImagesInterface>;
+  currency: Currency,
 };

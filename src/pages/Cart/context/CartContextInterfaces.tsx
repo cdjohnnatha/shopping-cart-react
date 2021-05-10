@@ -13,9 +13,11 @@ export interface CartContextInterface {
   removeItem: (id: string) => void;
   addItem: (product: ProductInterface) => void;
   hasProductInCart: (id: string) => boolean;
-  cartItems: CartItemsInterface;
+  cartItemsArray: () => CartItem[];
   totalCartItems: () => number;
   isCartEmpty: () => boolean;
   itemHasAvailableQuantity: (product: CartItem) => boolean,
   itemHasAvailableQuantityToAddCart: (product: CartItem) => boolean,
+  updateCartItemQuantity: (id: string, quantity: number) => void,
+  totalAmountCartItems: () => number,
 };

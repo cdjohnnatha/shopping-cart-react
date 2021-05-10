@@ -27,14 +27,20 @@ input PaginationInputType {
   currentPage: Int!
 }
 
+type CurrencyType {
+  rowsPerPage: String!
+  currentPage: String!
+}
+
 type ProductType {
   _id: ID
-  name: String
-  quantityAvailable: Float
-  category: String
-  description: String
-  price: Float
-  images: [ImageType]
+  name: String!
+  quantityAvailable: Int!
+  maxQuantityPerCustomer: Int!
+  category: String!
+  description: String!
+  price: Float!
+  images: [ImageType]!
 }
 
 type ProductsPaginated {

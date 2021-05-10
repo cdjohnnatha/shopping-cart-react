@@ -3,11 +3,12 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
+import { Link } from 'react-router-dom';
+// import Link from '@material-ui/core/Link';
+
 // import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
-
 import { CartContext } from '../../pages/Cart/context/CartContext';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,10 +20,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
     },
     title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
+      color: 'white',
+      cursor: 'pointer',
     },
     inputRoot: {
       color: 'inherit',
@@ -38,32 +37,33 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function TopBar(): ReactElement {
   const classes = useStyles();
-  const { isCartEmpty, totalCartItems } = useContext(CartContext);
-
-  let cartIcon = null;
-  // const cartItems = (cartProps?.cartItemsCount?? 0);
-
-  if (!isCartEmpty()) {
-    cartIcon = (
-      <Badge badgeContent={totalCartItems()} color="secondary">
-        <ShoppingCart />
-      </Badge>
-    );
-  }
-
+  const { totalCartItems } = useContext(CartContext);
 
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Link
+            className={classes.title}
+            to="/"
+          >
             GuitarShop
-          </Typography>
+          </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton disabled={isCartEmpty()} aria-label="cart items" color="inherit">
-              {cartIcon}
-            </IconButton>
+            <Link
+              className={classes.title}
+              to="/cart"
+            >
+              <IconButton
+                aria-label="cart items"
+                color="inherit"
+              >
+                <Badge badgeContent={totalCartItems()} color="secondary">
+                  <ShoppingCart />
+                </Badge>
+              </IconButton>
+            </Link>
             {/* <IconButton
               edge="end"
               aria-label="account of current user"

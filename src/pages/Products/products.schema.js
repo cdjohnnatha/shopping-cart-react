@@ -7,6 +7,7 @@ graphql`
         _id
         name
         quantityAvailable
+        maxQuantityPerCustomer
         category
         description
         price

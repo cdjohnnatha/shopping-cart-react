@@ -30,6 +30,7 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
 
     if (hasProductInCart(product._id)) {
       cartItems[product._id].quantity++;
+      cartItems[product._id].quantityAvailable--;
     } else {
       cartItems[product._id] = {
         ...product,
@@ -51,6 +52,17 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
     setCartItems({ ...cartItems });
   }
 
+  const updateCartItemQuantity = (id: string, quantity: number) => {
+    cartItems[id].quantity = quantity;
+    if (itemHasAvailableQuantityToAddCart(cartItems[id])) {
+      setCartItems({ ...cartItems });
+    } else {
+      /**@Todo create common message center */
+      window.alert('It has not available quantity to add in cart');
+      console.warn('It has not available quantity to add in cart');
+    }
+  }
+
   const clearCart = (): void => {
     setCartItems(cartInitialState);
   }
@@ -59,6 +71,17 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
 
   const isCartEmpty = () => totalCartItems() === 0;
 
+  const cartItemsArray = (): CartItem[] => Object.values(cartItems);
+
+  const totalAmountCartItems = (): number => {
+    let totalAmount = 0;
+    for (const cartId in cartItems) {
+      totalAmount += cartItems[cartId].price * cartItems[cartId].quantity;
+    }
+
+    return totalAmount;
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -66,11 +89,13 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
         addItem,
         clearCart,
         hasProductInCart,
-        cartItems,
+        cartItemsArray,
         totalCartItems,
         isCartEmpty,
         itemHasAvailableQuantity,
         itemHasAvailableQuantityToAddCart,
+        updateCartItemQuantity,
+        totalAmountCartItems,
       }}
     >
       {props.children}
