@@ -24,8 +24,7 @@ interface ImgMediaCardProps {
 
 export default function ImgMediaCard({ product }: ImgMediaCardProps): React.ReactElement {
   const classes = useStyles();
-  const { hasProductInCart, addItem, removeItem,  } = useContext(CartContext);
-
+  const { hasProductInCart, addItem, removeItem } = useContext(CartContext);
 
   const {
     _id: productId,

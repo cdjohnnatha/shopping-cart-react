@@ -1,5 +1,6 @@
 import RootView from '../../pages/RootView/RootView';
 import Cart from '../../pages/Cart/Cart';
+import Checkout from '../../pages/Checkout';
 
 const ROUTES = [
   {
@@ -13,6 +14,12 @@ const ROUTES = [
     key: "cart",
     exact: true,
     component: Cart,
+  },
+  {
+    path: "/checkout",
+    key: "cart",
+    exact: true,
+    component: Checkout,
   },
 ];
 

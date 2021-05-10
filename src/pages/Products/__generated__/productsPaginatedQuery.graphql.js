@@ -23,6 +23,10 @@ export type productsPaginatedQueryResponse = {|
       +category: string,
       +description: string,
       +price: number,
+      +currency: {|
+        +label: string,
+        +name: string,
+      |},
       +images: $ReadOnlyArray<?{|
         +path: ?string,
         +tags: ?string,
@@ -59,6 +63,10 @@ query productsPaginatedQuery(
       category
       description
       price
+      currency {
+        label
+        name
+      }
       images {
         path
         tags
@@ -87,7 +95,14 @@ v1 = {
   "kind": "LocalArgument",
   "name": "rowsPerPage"
 },
-v2 = [
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v3 = [
   {
     "alias": null,
     "args": [
@@ -128,13 +143,7 @@ v2 = [
             "name": "_id",
             "storageKey": null
           },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "name",
-            "storageKey": null
-          },
+          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -168,6 +177,25 @@ v2 = [
             "args": null,
             "kind": "ScalarField",
             "name": "price",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "CurrencyType",
+            "kind": "LinkedField",
+            "name": "currency",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "label",
+                "storageKey": null
+              },
+              (v2/*: any*/)
+            ],
             "storageKey": null
           },
           {
@@ -264,7 +292,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "productsPaginatedQuery",
-    "selections": (v2/*: any*/),
+    "selections": (v3/*: any*/),
     "type": "query",
     "abstractKey": null
   },
@@ -276,19 +304,19 @@ return {
     ],
     "kind": "Operation",
     "name": "productsPaginatedQuery",
-    "selections": (v2/*: any*/)
+    "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "88f5907aa4513b145009aa1f97186fb5",
+    "cacheID": "befa7ce4548e12297f0c5cde23d290f5",
     "id": null,
     "metadata": {},
     "name": "productsPaginatedQuery",
     "operationKind": "query",
-    "text": "query productsPaginatedQuery(\n  $rowsPerPage: Int!\n  $currentPage: Int!\n) {\n  productsPaginated(pagination: {rowsPerPage: $rowsPerPage, currentPage: $currentPage}) {\n    products {\n      _id\n      name\n      quantityAvailable\n      maxQuantityPerCustomer\n      category\n      description\n      price\n      images {\n        path\n        tags\n        size\n        type\n      }\n    }\n    pagination {\n      totalPages\n      totalValues\n      rowsPerPage\n      currentPage\n    }\n  }\n}\n"
+    "text": "query productsPaginatedQuery(\n  $rowsPerPage: Int!\n  $currentPage: Int!\n) {\n  productsPaginated(pagination: {rowsPerPage: $rowsPerPage, currentPage: $currentPage}) {\n    products {\n      _id\n      name\n      quantityAvailable\n      maxQuantityPerCustomer\n      category\n      description\n      price\n      currency {\n        label\n        name\n      }\n      images {\n        path\n        tags\n        size\n        type\n      }\n    }\n    pagination {\n      totalPages\n      totalValues\n      rowsPerPage\n      currentPage\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'b48f085566334465a0a0cbb8f8dbc9b6';
+(node/*: any*/).hash = 'd02975aeb8832279fdfee69b4416cabc';
 
 module.exports = node;

@@ -11,6 +11,10 @@ graphql`
         category
         description
         price
+        currency {
+          label
+          name
+        }
         images {
           path
           tags

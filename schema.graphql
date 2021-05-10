@@ -1,39 +1,29 @@
 schema {
-  query: query
+    query: query
 }
 
-enum ImageEnumType {
-  LIST
-  FULL
-  THUMBNAIL
+type query {
+  #This query gets the beneficiaries by a specific customer."
+  productsPaginated(pagination: PaginationInput): ProductsPaginated
 }
 
-type ImageType {
-  path: String
-  tags: String
-  size: String
-  type: ImageEnumType
+#Attributes definition for a product list and pagination."
+type ProductsPaginated {
+    pagination: PaginationType
+  products: [ProductType]
 }
 
+#It represents the pagination response structure."
 type PaginationType {
-  totalPages: Int
+    totalPages: Int
   totalValues: Int
   rowsPerPage: Int
   currentPage: Int
 }
 
-input PaginationInputType {
-  rowsPerPage: Int!
-  currentPage: Int!
-}
-
-type CurrencyType {
-  rowsPerPage: String!
-  currentPage: String!
-}
-
+#Attributes definition for a product."
 type ProductType {
-  _id: ID
+    _id: ID
   name: String!
   quantityAvailable: Int!
   maxQuantityPerCustomer: Int!
@@ -41,14 +31,35 @@ type ProductType {
   description: String!
   price: Float!
   images: [ImageType]!
+  currency: CurrencyType!
 }
 
-type ProductsPaginated {
-  pagination: PaginationType
-  products: [ProductType]
+#Attributes available to images.
+type ImageType {
+    path: String
+  tags: String
+  size: String
+  type: ImageEnumType
 }
 
-type query {
-  productsPaginated(pagination: PaginationInputType): ProductsPaginated
+#Image types used around ecommerce application such as list, full image, thumbnail.
+
+enum ImageEnumType {
+    LIST
+  FULL
+  THUMBNAIL
 }
 
+#Currency definition, contains currency name and the label used.
+type CurrencyType {
+    name: String!
+  label: String!
+  price: Float!
+}
+
+
+#It represents the pagination input structure. It represents how many objects will be listed.
+input PaginationInput {
+    rowsPerPage: Int!
+  currentPage: Int!
+}
