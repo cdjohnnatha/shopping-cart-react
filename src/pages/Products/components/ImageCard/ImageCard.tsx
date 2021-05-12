@@ -36,7 +36,7 @@ export default function ImgMediaCard({ product }: ImgMediaCardProps): React.Reac
   } = product;
 
   let buttonLabel = "Add to cart";
-  let onClickButtonHandler = () => addItem(product);
+  let onClickButtonHandler = () => addItem(product._id);
 
   if (hasProductInCart(productId)) {
     buttonLabel = "Remove from cart";
@@ -46,12 +46,13 @@ export default function ImgMediaCard({ product }: ImgMediaCardProps): React.Reac
 
   const priceLabel = `${currency.label}: ${price.toFixed(2)}`;
   const { path, ...imageProps } = image;
+  const serverPath = `${process.env.REACT_APP_API_URL}${path}`;
   return (
     <Card className={classes.root} id={productId} data-testid="cardElement">
       <CardMedia
         component="img"
         height="140"
-        image={path}
+        image={serverPath}
         {...imageProps}
       />
       <CardContent>

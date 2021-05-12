@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement, useContext, useEffect } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -37,8 +37,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function TopBar(): ReactElement {
   const classes = useStyles();
-  const { totalCartItems } = useContext(CartContext);
-
+  const { totalCartItems, cart, loadCart } = useContext(CartContext);
+  useEffect(() => {
+    /** @TODO change to load once */
+    if (cart.products.length === 0) {
+      loadCart();
+    }
+  }, [])
   return (
     <div className={classes.grow}>
       <AppBar position="static">

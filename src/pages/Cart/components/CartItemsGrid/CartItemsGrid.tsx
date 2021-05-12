@@ -4,12 +4,12 @@ import { CartContext } from '../../context/CartContext';
 import CartItem from './CartItem';
 
 export const CartItemsGrid = (): JSX.Element | null => {
-  const { cartItemsArray, isCartEmpty } = useContext(CartContext);
+  const { cart, isCartEmpty } = useContext(CartContext);
 
   let renderCartItems = null;
 
   if (!isCartEmpty()) {
-    const cartItemsGridItems = cartItemsArray().map((cartItem, index) =>
+    const cartItemsGridItems = cart.products.map((cartItem, index) =>
       <CartItem cartItem={cartItem} key={`cart-item-grid-${index}`} />
     );
 

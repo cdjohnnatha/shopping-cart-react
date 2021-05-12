@@ -1,82 +1,103 @@
 import React, { createContext, useState, FC } from 'react';
-import { ProductInterface } from '../../Products/ProductInterface';
-import { CartContextInterface, CartItemsInterface, CartItem } from './CartContextInterfaces';
+import { CartInterface } from '../CartInterface';
+import { ProductInterface, ProductKeyValueInterface } from '../../Products/ProductInterface';
+import { CartContextInterface } from './CartContextInterfaces';
+import graphqlService from '../../../services/graphqlService';
+import CartItemAddMutation from '../__generated__/cartItemAddMutation.graphql';
+import CartItemRemoveQuery from '../__generated__/cartItemRemoveQuery.graphql';
+import CartItemUpdateQuantityMutation from '../__generated__/cartItemUpdateQuantityMutation.graphql';
+import CartActiveQuery from '../__generated__/cartActiveQuery.graphql';
+import ProductsFilterQuery from '../../Products/__generated__/productsFilterQuery.graphql';
 
-
-
-const cartInitialState = {};
+const cartInitialState = {
+  total: 0.00,
+  status: 'Active',
+  quantity: 0,
+  products: [],
+};
 
 export const CartContext = createContext<CartContextInterface>({} as CartContextInterface);
 
-
 export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>) => {
-  const [cartItems, setCartItems] = useState<CartItemsInterface>(cartInitialState);
+  const [cart, setCart] = useState<CartInterface>(cartInitialState as CartInterface);
+  const [cartItemDetails, setCartItemDetails] = useState<ProductKeyValueInterface>({});
 
-  const hasProductInCart = (id: string): boolean => Boolean(cartItems[id]);
+  const hasProductInCart = (id: string): boolean => {
+    const hasInCart = cart.products.find(({ _id }) => _id === id)
+    return Boolean(hasInCart);
+  };
 
-  const itemHasAvailableQuantity = (product: CartItem): boolean => product.quantityAvailable > 0;
-
-  const itemHasAvailableQuantityToAddCart = (product: CartItem): boolean => {
-    let hasQuantityAvailableToAddCart = itemHasAvailableQuantity(product);
-    if (hasQuantityAvailableToAddCart) {
-      const { quantityAvailable, quantity } = product;
-      hasQuantityAvailableToAddCart = (quantityAvailable - quantity) >= 0;
-    }
-
-    return hasQuantityAvailableToAddCart;
-  }
-
-  const addItem = (product: ProductInterface): void => {
-
-    if (hasProductInCart(product._id)) {
-      cartItems[product._id].quantity++;
-      cartItems[product._id].quantityAvailable--;
-    } else {
-      cartItems[product._id] = {
-        ...product,
-        quantity: 1,
-      }
-    }
-
-    if (itemHasAvailableQuantityToAddCart(cartItems[product._id])) {
-      setCartItems({ ...cartItems });
-    } else {
-      /**@Todo create common message center */
-      window.alert('It has not available quantity to add in cart');
-      console.warn('It has not available quantity to add in cart');
+  const addItem = async (productId: string) => {
+    try {
+      const graphqlResponse = await graphqlService(CartItemAddMutation.params.text, { productId });
+      setCart({ ...graphqlResponse.data.addCartItem });
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const removeItem = (id: string): void => {
-    delete cartItems[id];
-    setCartItems({ ...cartItems });
+  const removeItem = async (id: string) => {
+    try {
+      const graphqlResponse = await graphqlService(CartItemRemoveQuery.params.text, { productId: id });
+      console.log('[graphqlResponse.data.removeCartItem]', graphqlResponse.data);
+      // setCart({ ...graphqlResponse.data.removeCartItem });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  const updateCartItemQuantity = (id: string, quantity: number) => {
-    cartItems[id].quantity = quantity;
-    if (itemHasAvailableQuantityToAddCart(cartItems[id])) {
-      setCartItems({ ...cartItems });
-    } else {
-      /**@Todo create common message center */
-      window.alert('It has not available quantity to add in cart');
-      console.warn('It has not available quantity to add in cart');
+  const loadCartItemsDetails = async () => {
+    try {
+      const idList = cart.products.map(({ _id }) => _id);
+      const graphqlResponse = await graphqlService(ProductsFilterQuery.params.text, { idList });
+
+      const productKeyValue: ProductKeyValueInterface = {};
+      graphqlResponse.data.productsFilter.forEach((product: ProductInterface) => {
+        productKeyValue[product._id] = product
+      });
+      setCartItemDetails({ ...productKeyValue });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const updateCartItemQuantity = async (id: string, quantity: number) => {
+    try {
+      const variables = { productId: id, quantity };
+      const graphqlResponse = await graphqlService(CartItemUpdateQuantityMutation.params.text, variables);
+      console.log('[graphqlResponse]', graphqlResponse.data);
+      setCartItemDetails({ ...graphqlResponse.data.updateCartItemQuantity });
+    } catch (error) {
+      console.error(error);
     }
   }
 
   const clearCart = (): void => {
-    setCartItems(cartInitialState);
+    setCart(cartInitialState);
   }
 
-  const totalCartItems = (): number => Object.keys(cartItems).length;
+  const totalCartItems = (): number => cart.quantity;
 
   const isCartEmpty = () => totalCartItems() === 0;
 
-  const cartItemsArray = (): CartItem[] => Object.values(cartItems);
+  const loadCart = async () => {
+    try {
+      const graphqlResponse = await graphqlService(CartActiveQuery.params.text, {});
+      console.log('[graphqlResponse]', graphqlResponse);
+      if (graphqlResponse.data.activeCart) {
+        setCart({ ...graphqlResponse.data.activeCart });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // const cartItemsArray = (): CartItem[] => Object.values(cartItems);
 
   const totalAmountCartItems = (): number => {
     let totalAmount = 0;
-    for (const cartId in cartItems) {
-      totalAmount += cartItems[cartId].price * cartItems[cartId].quantity;
+    for (const cartItem of cart.products) {
+      totalAmount += cartItem.price * cartItem.quantity;
     }
 
     return totalAmount;
@@ -87,15 +108,20 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
       value={{
         removeItem,
         addItem,
+        loadCartItemsDetails,
+        loadCart,
         clearCart,
         hasProductInCart,
-        cartItemsArray,
+        // cartItemsArray,
         totalCartItems,
         isCartEmpty,
-        itemHasAvailableQuantity,
-        itemHasAvailableQuantityToAddCart,
+        // itemHasAvailableQuantity,
+        // itemHasAvailableQuantityToAddCart,
         updateCartItemQuantity,
         totalAmountCartItems,
+        cart,
+        products: cart.products,
+        cartItemDetails,
       }}
     >
       {props.children}

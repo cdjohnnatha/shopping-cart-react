@@ -3,28 +3,31 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import { CartItem } from '../../../context/CartContextInterfaces';
+import { CartItemInterface } from '../../../CartInterface';
 import { CartContext } from '../../../context/CartContext';
 import CartItemQuantitySelect from './ItemQuantitySelect';
 
 interface CartItemGridProps {
-  cartItem?: CartItem,
+  cartItem?: CartItemInterface,
 }
 
 export const CartItemGrid = ({ cartItem }: CartItemGridProps): JSX.Element | null => {
   let renderCartItem = null;
-  const { removeItem } = useContext(CartContext);
+  const { removeItem, cartItemDetails } = useContext(CartContext);
 
   if (cartItem) {
+    const {
+      _id: productId,
+      quantity,
+      price,
+    } = cartItem;
+
     const {
       images,
       name,
       description,
-      quantity,
       maxQuantityPerCustomer,
-      _id: productId,
-      price,
-    } = cartItem;
+    } = cartItemDetails[productId]
 
     const [image] = images.filter((image) => image.type === 'THUMBNAIL');
     const totalAmount = (price * quantity).toFixed(2);

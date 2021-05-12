@@ -21,3 +21,7 @@ export interface ProductInterface {
   images: Array<ProductImagesInterface>;
   currency: Currency,
 };
+
+export interface ProductKeyValueInterface {
+  [key: string]: ProductInterface
+}

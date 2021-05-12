@@ -31,3 +31,27 @@ graphql`
     }
   }
 `;
+
+graphql`
+  query productsFilterQuery($idList: [ID]!) {
+    productsFilter(filters: { idList: $idList }) {
+      _id
+      name
+      quantityAvailable
+      maxQuantityPerCustomer
+      category
+      description
+      price
+      currency {
+        label
+        name
+      }
+      images {
+        path
+        tags
+        size
+        type
+      }
+    }
+  }
+`;

@@ -1,19 +1,26 @@
 schema {
-    query: query
+  query: query
+  mutation: mutation
 }
 
 type query {
-  #This query gets the beneficiaries by a specific customer."
+    #This query gets the beneficiaries by a specific customer.#
   productsPaginated(pagination: PaginationInput): ProductsPaginated
+
+  #This query a products list from filter.#
+  productsFilter(filters: productFilterInputType): [ProductType]
+
+  #Method used to add a product in a cart.#
+  activeCart: CartType
 }
 
-#Attributes definition for a product list and pagination."
+#Attributes definition for a product list and pagination.#
 type ProductsPaginated {
     pagination: PaginationType
   products: [ProductType]
 }
 
-#It represents the pagination response structure."
+#It represents the pagination response structure.#
 type PaginationType {
     totalPages: Int
   totalValues: Int
@@ -21,7 +28,7 @@ type PaginationType {
   currentPage: Int
 }
 
-#Attributes definition for a product."
+#Attributes definition for a product.#
 type ProductType {
     _id: ID
   name: String!
@@ -34,7 +41,7 @@ type ProductType {
   currency: CurrencyType!
 }
 
-#Attributes available to images.
+#Attributes available to images.#
 type ImageType {
     path: String
   tags: String
@@ -42,24 +49,73 @@ type ImageType {
   type: ImageEnumType
 }
 
-#Image types used around ecommerce application such as list, full image, thumbnail.
-
+# Image types used around ecommerce application such as list, full image, thumbnail.
+#
 enum ImageEnumType {
     LIST
   FULL
   THUMBNAIL
 }
 
-#Currency definition, contains currency name and the label used.
+#Currency definition, contains currency name and the label used.#
 type CurrencyType {
     name: String!
   label: String!
   price: Float!
 }
 
-
 #It represents the pagination input structure. It represents how many objects will be listed.
+#
 input PaginationInput {
     rowsPerPage: Int!
   currentPage: Int!
+}
+
+#Inputs used to filter products .#
+input productFilterInputType {
+    idList: [ID]!
+}
+
+#Attributes definition for a cart with/without products.#
+type CartType {
+    _id: ID
+  quantity: Int!
+  total: Float!
+  status: CartStatusEnumType!
+  products: [CartItemType]
+}
+
+#Cart status definition.#
+enum CartStatusEnumType {
+    ACTIVE
+  INACTIVE
+}
+
+#Attributes definition for a product.#
+type CartItemType {
+    _id: ID!
+  price: Float!
+  quantity: Int!
+}
+
+type mutation {
+    #Method used to add a product in a cart.#
+  addCartItem(cartItem: addItemInputType): CartType
+
+  #Method used to update cart item quantity, increase/decrease.#
+  updateCartItemQuantity(cartItem: updateCartItemQuantityInputType): CartType
+
+  #Method used to update cart item quantity, increase/decrease.#
+  removeCartItem(productId: ID!): CartType
+}
+
+#Attributes definition for a cart with/without products.#
+input addItemInputType {
+    productId: ID!
+}
+
+#Cart item input used increase or decrease a product in a cart.#
+input updateCartItemQuantityInputType {
+    productId: ID!
+  quantity: Int!
 }
