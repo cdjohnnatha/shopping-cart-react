@@ -3,9 +3,14 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CartContext } from '../../context/CartContext';
+import { CreditCardInputOption } from '../../CartInterface';
 
-export const CartResume = (): JSX.Element => {
-  const { totalAmountCartItems, totalCartItems } = useContext(CartContext);
+interface CartResumeProps {
+  payment: CreditCardInputOption
+};
+
+export const CartResume = ({ payment }: CartResumeProps): JSX.Element => {
+  const { totalAmountCartItems, totalCartItems, makeCheckout } = useContext(CartContext);
 
   return (
     <Grid container>
@@ -23,7 +28,14 @@ export const CartResume = (): JSX.Element => {
         </Typography>
       </Grid>
       <Grid item xs={12} style={{ marginTop: '1em' }}>
-        <Button fullWidth variant="outlined" id="btn-payment">Pay</Button>
+        <Button
+          fullWidth
+          variant="outlined"
+          id="btn-payment"
+          onClick={() => makeCheckout(payment)}
+        >
+          Pay
+        </Button>
       </Grid>
     </Grid>
   )

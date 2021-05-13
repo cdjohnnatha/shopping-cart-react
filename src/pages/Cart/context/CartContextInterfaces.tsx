@@ -1,4 +1,9 @@
-import { CartItemInterface, CartInterface } from '../CartInterface';
+import {
+  CartItemInterface,
+  CartInterface,
+  CreditCardInterface,
+  CreditCardInputOption
+} from '../CartInterface';
 import { ProductKeyValueInterface } from '../../Products/ProductInterface';
 
 export interface CartContextInterface {
@@ -18,4 +23,6 @@ export interface CartContextInterface {
   cart: CartInterface,
   products: CartItemInterface[],
   cartItemDetails: ProductKeyValueInterface,
+  getCreditCard: (cardName: CreditCardInputOption) => CreditCardInterface,
+  makeCheckout: (payment: CreditCardInputOption) => void,
 };

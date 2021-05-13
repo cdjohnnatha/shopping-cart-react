@@ -1,5 +1,5 @@
 import React, { createContext, useState, FC } from 'react';
-import { CartInterface } from '../CartInterface';
+import { CartInterface, CreditCardInterface, CreditCardInputOption } from '../CartInterface';
 import { ProductInterface, ProductKeyValueInterface } from '../../Products/ProductInterface';
 import { CartContextInterface } from './CartContextInterfaces';
 import graphqlService from '../../../services/graphqlService';
@@ -8,6 +8,7 @@ import CartItemRemoveQuery from '../__generated__/cartItemRemoveQuery.graphql';
 import CartItemUpdateQuantityMutation from '../__generated__/cartItemUpdateQuantityMutation.graphql';
 import CartActiveQuery from '../__generated__/cartActiveQuery.graphql';
 import ProductsFilterQuery from '../../Products/__generated__/productsFilterQuery.graphql';
+import CartCheckoutMutation from '../__generated__/cartCheckoutMutation.graphql';
 
 const cartInitialState = {
   total: 0.00,
@@ -15,6 +16,19 @@ const cartInitialState = {
   quantity: 0,
   products: [],
 };
+
+const CREDIT_CARD = {
+  refusedCard: {
+    paymentCard: 'VISA',
+    paymentType: 'CREDIT_CARD',
+    creditCardNumber: 'XXXX-XXXX-XXXX-9988'
+  },
+  acceptedCard: {
+    paymentCard: 'MASTER',
+    paymentType: 'CREDIT_CARD',
+    creditCardNumber: 'XXXX-XXXX-XXXX-8889'
+  },
+}
 
 export const CartContext = createContext<CartContextInterface>({} as CartContextInterface);
 
@@ -28,47 +42,40 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
   };
 
   const addItem = async (productId: string) => {
-    try {
-      const graphqlResponse = await graphqlService(CartItemAddMutation.params.text, { productId });
-      setCart({ ...graphqlResponse.data.addCartItem });
-    } catch (error) {
-      console.error(error);
+    const { success, data } = await graphqlService(CartItemAddMutation.params.text, { productId });
+    if (success) {
+      setCart({ ...(data as CartInterface) });
     }
   };
 
   const removeItem = async (id: string) => {
-    try {
-      const graphqlResponse = await graphqlService(CartItemRemoveQuery.params.text, { productId: id });
-      console.log('[graphqlResponse.data.removeCartItem]', graphqlResponse.data);
-      // setCart({ ...graphqlResponse.data.removeCartItem });
-    } catch (error) {
-      console.error(error);
+    const { success, data } = await graphqlService(CartItemRemoveQuery.params.text, { productId: id });
+    if (success) {
+      setCart({ ...(data as CartInterface) });
     }
   }
 
   const loadCartItemsDetails = async () => {
     try {
       const idList = cart.products.map(({ _id }) => _id);
-      const graphqlResponse = await graphqlService(ProductsFilterQuery.params.text, { idList });
-
-      const productKeyValue: ProductKeyValueInterface = {};
-      graphqlResponse.data.productsFilter.forEach((product: ProductInterface) => {
-        productKeyValue[product._id] = product
-      });
-      setCartItemDetails({ ...productKeyValue });
+      const { success, data } = await graphqlService(ProductsFilterQuery.params.text, { idList });
+      if (success) {
+        const productKeyValue: ProductKeyValueInterface = {};
+        (data as Array<ProductInterface>).forEach((product: ProductInterface) => {
+          productKeyValue[product._id] = product
+        });
+        setCartItemDetails({ ...productKeyValue });
+      }
     } catch (error) {
       console.error(error);
     }
   }
 
   const updateCartItemQuantity = async (id: string, quantity: number) => {
-    try {
-      const variables = { productId: id, quantity };
-      const graphqlResponse = await graphqlService(CartItemUpdateQuantityMutation.params.text, variables);
-      console.log('[graphqlResponse]', graphqlResponse.data);
-      setCartItemDetails({ ...graphqlResponse.data.updateCartItemQuantity });
-    } catch (error) {
-      console.error(error);
+    const variables = { productId: id, quantity };
+    const { success, data } = await graphqlService(CartItemUpdateQuantityMutation.params.text, variables);
+    if (success) {
+      setCartItemDetails({ ...(data as ProductKeyValueInterface) });
     }
   }
 
@@ -81,18 +88,11 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
   const isCartEmpty = () => totalCartItems() === 0;
 
   const loadCart = async () => {
-    try {
-      const graphqlResponse = await graphqlService(CartActiveQuery.params.text, {});
-      console.log('[graphqlResponse]', graphqlResponse);
-      if (graphqlResponse.data.activeCart) {
-        setCart({ ...graphqlResponse.data.activeCart });
-      }
-    } catch (error) {
-      console.error(error);
+    const { success, data } = await graphqlService(CartActiveQuery.params.text, {});
+    if (success) {
+      setCart({ ...(data as CartInterface) });
     }
   }
-
-  // const cartItemsArray = (): CartItem[] => Object.values(cartItems);
 
   const totalAmountCartItems = (): number => {
     let totalAmount = 0;
@@ -102,6 +102,16 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
 
     return totalAmount;
   };
+
+  const getCreditCard = (cardName: CreditCardInputOption) => (CREDIT_CARD[cardName] as CreditCardInterface);
+
+  const makeCheckout = async (payment: CreditCardInputOption) => {
+    const { success, data } = await graphqlService(CartCheckoutMutation.params.text, getCreditCard(payment));
+    console.log('data', data);
+    if (success) {
+      // setCartItemDetails({ ...(data as ProductKeyValueInterface) });
+    }
+  }
 
   return (
     <CartContext.Provider
@@ -122,6 +132,8 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
         cart,
         products: cart.products,
         cartItemDetails,
+        getCreditCard,
+        makeCheckout,
       }}
     >
       {props.children}

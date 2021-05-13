@@ -14,3 +14,14 @@ export interface CartInterface {
 export interface CartItemsInterface {
   [id: string]: CartItemInterface;
 };
+
+export enum CreditCardInputOption {
+  refusedCard = 'refusedCard',
+  acceptedCard = 'refusedCard'
+}
+
+export interface CreditCardInterface { 
+  paymentCard: string,
+  paymentType: string,
+  creditCardNumber: string
+}

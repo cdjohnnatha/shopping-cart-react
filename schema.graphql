@@ -49,7 +49,7 @@ type ImageType {
   type: ImageEnumType
 }
 
-# Image types used around ecommerce application such as list, full image, thumbnail.
+#Image types used around ecommerce application such as list, full image, thumbnail.
 #
 enum ImageEnumType {
     LIST
@@ -107,6 +107,9 @@ type mutation {
 
   #Method used to update cart item quantity, increase/decrease.#
   removeCartItem(productId: ID!): CartType
+
+  #Method used to purchase items from cart.#
+  checkout(payment: PaymentInputType): OrderType
 }
 
 #Attributes definition for a cart with/without products.#
@@ -118,4 +121,44 @@ input addItemInputType {
 input updateCartItemQuantityInputType {
     productId: ID!
   quantity: Int!
+}
+
+#Attributes definition for a cart with/without products.#
+type OrderType {
+    _id: ID!
+  payment: PaymentType!
+  products: [CartItemType]!
+  total: Float!
+}
+
+#Payment type used in order.#
+type PaymentType {
+    paymentType: PaymentTypesEnum!
+  paymentCardType: PaymentCardEnumType!
+  paymentStatus: PaymentStatusEnumType!
+  transactionId: [String]
+}
+
+#Payment types.#
+enum PaymentTypesEnum {
+    CREDIT_CARD
+}
+
+#Payment types.#
+enum PaymentCardEnumType {
+    MASTER
+  VISA
+}
+
+#Payment status types.#
+enum PaymentStatusEnumType {
+    PAID
+  REFUSED
+}
+
+#Cart item input used increase or decrease a product in a cart.#
+input PaymentInputType {
+  paymentCard: PaymentCardEnumType!
+  paymentType: PaymentTypesEnum!
+  creditCardNumber: String!
 }

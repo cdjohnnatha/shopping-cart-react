@@ -63,3 +63,23 @@ graphql`
     }
   }
 `;
+
+graphql`
+  mutation cartCheckoutMutation($paymentCard: PaymentCardEnumType!, $paymentType: PaymentTypesEnum!, $creditCardNumber: String!) {
+    checkout(payment:{  paymentCard: $paymentCard, paymentType: $paymentType, creditCardNumber: $creditCardNumber }){
+      _id
+      payment{
+        paymentType
+        paymentCardType
+        paymentStatus
+        transactionId
+      }
+      products{
+        _id
+        price
+        quantity
+      }
+      total
+    }
+  }
+`;

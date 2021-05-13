@@ -26,9 +26,10 @@ const RootView = (): JSX.Element => {
         rowsPerPage: pagination.rowsPerPage,
         currentPage: pagination.currentPage
       };
-      const graphqlResponse = await graphqlService(params.text, variables);
-      const { productsPaginated } = graphqlResponse.data;
-      setProductsPaginated(productsPaginated);
+      const { success, data } = await graphqlService(params.text, variables);
+      if (success ) {
+        setProductsPaginated((data as ProductsPaginated));
+      }
     } catch (error) {
       console.error(error);
     }
