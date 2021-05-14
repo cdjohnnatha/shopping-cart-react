@@ -37,7 +37,7 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
   const [cartItemDetails, setCartItemDetails] = useState<ProductKeyValueInterface>({});
 
   const hasProductInCart = (id: string): boolean => {
-    const hasInCart = cart.products.find(({ _id }) => _id === id)
+    const hasInCart = cart.products.find(({ productId }) => productId === id)
     return Boolean(hasInCart);
   };
 
@@ -57,7 +57,7 @@ export const CartProvider: FC = (props: React.PropsWithChildren<React.ReactNode>
 
   const loadCartItemsDetails = async () => {
     try {
-      const idList = cart.products.map(({ _id }) => _id);
+      const idList = cart.products.map(({ productId }) => productId);
       const { success, data } = await graphqlService(ProductsFilterQuery.params.text, { idList });
       if (success) {
         const productKeyValue: ProductKeyValueInterface = {};

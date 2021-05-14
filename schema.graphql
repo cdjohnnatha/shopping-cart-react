@@ -1,11 +1,11 @@
 schema {
-  query: query
+    query: query
   mutation: mutation
 }
 
 type query {
     #This query gets the beneficiaries by a specific customer.#
-  productsPaginated(pagination: PaginationInput): ProductsPaginated
+  productsPaginated(pagination: PaginationInput!): ProductsPaginated
 
   #This query a products list from filter.#
   productsFilter(filters: productFilterInputType): [ProductType]
@@ -39,6 +39,7 @@ type ProductType {
   price: Float!
   images: [ImageType]!
   currency: CurrencyType!
+  in_carts: [InCartType]
 }
 
 #Attributes available to images.#
@@ -62,6 +63,13 @@ type CurrencyType {
     name: String!
   label: String!
   price: Float!
+}
+
+#Attributes added when a product is saved in a cart.#
+type InCartType {
+    clientId: ID
+  quantity: Int
+  timestamp: String
 }
 
 #It represents the pagination input structure. It represents how many objects will be listed.
@@ -93,7 +101,7 @@ enum CartStatusEnumType {
 
 #Attributes definition for a product.#
 type CartItemType {
-    _id: ID!
+    productId: ID!
   price: Float!
   quantity: Int!
 }
@@ -136,7 +144,7 @@ type PaymentType {
     paymentType: PaymentTypesEnum!
   paymentCardType: PaymentCardEnumType!
   paymentStatus: PaymentStatusEnumType!
-  transactionId: [String]
+  transactionId: String
 }
 
 #Payment types.#
@@ -158,7 +166,7 @@ enum PaymentStatusEnumType {
 
 #Cart item input used increase or decrease a product in a cart.#
 input PaymentInputType {
-  paymentCard: PaymentCardEnumType!
+    paymentCard: PaymentCardEnumType!
   paymentType: PaymentTypesEnum!
   creditCardNumber: String!
 }

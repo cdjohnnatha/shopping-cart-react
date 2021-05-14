@@ -19,7 +19,7 @@ export type cartItemRemoveQueryResponse = {|
     +status: CartStatusEnumType,
     +quantity: number,
     +products: ?$ReadOnlyArray<?{|
-      +_id: string,
+      +productId: string,
       +price: number,
       +quantity: number,
     |}>,
@@ -42,7 +42,7 @@ mutation cartItemRemoveQuery(
     status
     quantity
     products {
-      _id
+      productId
       price
       quantity
     }
@@ -62,17 +62,10 @@ v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "_id",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "quantity",
   "storageKey": null
 },
-v3 = [
+v2 = [
   {
     "alias": null,
     "args": [
@@ -87,7 +80,13 @@ v3 = [
     "name": "removeCartItem",
     "plural": false,
     "selections": [
-      (v1/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "_id",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -102,7 +101,7 @@ v3 = [
         "name": "status",
         "storageKey": null
       },
-      (v2/*: any*/),
+      (v1/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -111,7 +110,13 @@ v3 = [
         "name": "products",
         "plural": true,
         "selections": [
-          (v1/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "productId",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -119,7 +124,7 @@ v3 = [
             "name": "price",
             "storageKey": null
           },
-          (v2/*: any*/)
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
@@ -133,7 +138,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "cartItemRemoveQuery",
-    "selections": (v3/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "mutation",
     "abstractKey": null
   },
@@ -142,19 +147,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "cartItemRemoveQuery",
-    "selections": (v3/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "858d67a3525164df0df6483ed8bece91",
+    "cacheID": "4349c6bae5bf3286a77f809250b04879",
     "id": null,
     "metadata": {},
     "name": "cartItemRemoveQuery",
     "operationKind": "mutation",
-    "text": "mutation cartItemRemoveQuery(\n  $productId: ID!\n) {\n  removeCartItem(productId: $productId) {\n    _id\n    total\n    status\n    quantity\n    products {\n      _id\n      price\n      quantity\n    }\n  }\n}\n"
+    "text": "mutation cartItemRemoveQuery(\n  $productId: ID!\n) {\n  removeCartItem(productId: $productId) {\n    _id\n    total\n    status\n    quantity\n    products {\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '18ac3ca59dd7c106cf2015ec49f5b99b';
+(node/*: any*/).hash = '56a966a55179c605ddb7a3a6a1a18e95';
 
 module.exports = node;

@@ -17,7 +17,7 @@ export const CartItemGrid = ({ cartItem }: CartItemGridProps): JSX.Element | nul
 
   if (cartItem) {
     const {
-      _id: productId,
+      productId,
       quantity,
       price,
     } = cartItem;

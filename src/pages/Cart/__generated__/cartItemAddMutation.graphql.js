@@ -19,7 +19,7 @@ export type cartItemAddMutationResponse = {|
     +status: CartStatusEnumType,
     +quantity: number,
     +products: ?$ReadOnlyArray<?{|
-      +_id: string,
+      +productId: string,
       +price: number,
       +quantity: number,
     |}>,
@@ -42,7 +42,7 @@ mutation cartItemAddMutation(
     status
     quantity
     products {
-      _id
+      productId
       price
       quantity
     }
@@ -62,17 +62,10 @@ v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "_id",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "quantity",
   "storageKey": null
 },
-v3 = [
+v2 = [
   {
     "alias": null,
     "args": [
@@ -93,7 +86,13 @@ v3 = [
     "name": "addCartItem",
     "plural": false,
     "selections": [
-      (v1/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "_id",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -108,7 +107,7 @@ v3 = [
         "name": "status",
         "storageKey": null
       },
-      (v2/*: any*/),
+      (v1/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -117,7 +116,13 @@ v3 = [
         "name": "products",
         "plural": true,
         "selections": [
-          (v1/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "productId",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -125,7 +130,7 @@ v3 = [
             "name": "price",
             "storageKey": null
           },
-          (v2/*: any*/)
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
@@ -139,7 +144,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "cartItemAddMutation",
-    "selections": (v3/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "mutation",
     "abstractKey": null
   },
@@ -148,19 +153,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "cartItemAddMutation",
-    "selections": (v3/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "614437328be973e4034179f802ae99e9",
+    "cacheID": "d15f743bfa6dbfc209cd9d5f533b54a8",
     "id": null,
     "metadata": {},
     "name": "cartItemAddMutation",
     "operationKind": "mutation",
-    "text": "mutation cartItemAddMutation(\n  $productId: ID!\n) {\n  addCartItem(cartItem: {productId: $productId}) {\n    _id\n    total\n    status\n    quantity\n    products {\n      _id\n      price\n      quantity\n    }\n  }\n}\n"
+    "text": "mutation cartItemAddMutation(\n  $productId: ID!\n) {\n  addCartItem(cartItem: {productId: $productId}) {\n    _id\n    total\n    status\n    quantity\n    products {\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '58548534ca3d4156fecf5a7611302668';
+(node/*: any*/).hash = '4b0772bbe066d2b44a603c661300f8e9';
 
 module.exports = node;

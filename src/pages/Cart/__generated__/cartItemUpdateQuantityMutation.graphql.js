@@ -20,7 +20,7 @@ export type cartItemUpdateQuantityMutationResponse = {|
     +status: CartStatusEnumType,
     +quantity: number,
     +products: ?$ReadOnlyArray<?{|
-      +_id: string,
+      +productId: string,
       +price: number,
       +quantity: number,
     |}>,
@@ -44,7 +44,7 @@ mutation cartItemUpdateQuantityMutation(
     status
     quantity
     products {
-      _id
+      productId
       price
       quantity
     }
@@ -69,17 +69,10 @@ v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "_id",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "quantity",
   "storageKey": null
 },
-v3 = [
+v2 = [
   {
     "alias": null,
     "args": [
@@ -105,7 +98,13 @@ v3 = [
     "name": "updateCartItemQuantity",
     "plural": false,
     "selections": [
-      (v1/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "_id",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -120,7 +119,7 @@ v3 = [
         "name": "status",
         "storageKey": null
       },
-      (v2/*: any*/),
+      (v1/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -129,7 +128,13 @@ v3 = [
         "name": "products",
         "plural": true,
         "selections": [
-          (v1/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "productId",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -137,7 +142,7 @@ v3 = [
             "name": "price",
             "storageKey": null
           },
-          (v2/*: any*/)
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
@@ -151,7 +156,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "cartItemUpdateQuantityMutation",
-    "selections": (v3/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "mutation",
     "abstractKey": null
   },
@@ -160,19 +165,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "cartItemUpdateQuantityMutation",
-    "selections": (v3/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "d71e5190797a1d434145d5fd3dccbb70",
+    "cacheID": "21a6dfb826f4f5e9a4da82041731adfa",
     "id": null,
     "metadata": {},
     "name": "cartItemUpdateQuantityMutation",
     "operationKind": "mutation",
-    "text": "mutation cartItemUpdateQuantityMutation(\n  $productId: ID!\n  $quantity: Int!\n) {\n  updateCartItemQuantity(cartItem: {productId: $productId, quantity: $quantity}) {\n    _id\n    total\n    status\n    quantity\n    products {\n      _id\n      price\n      quantity\n    }\n  }\n}\n"
+    "text": "mutation cartItemUpdateQuantityMutation(\n  $productId: ID!\n  $quantity: Int!\n) {\n  updateCartItemQuantity(cartItem: {productId: $productId, quantity: $quantity}) {\n    _id\n    total\n    status\n    quantity\n    products {\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'e70344657ced2eb93e373ea206d32d50';
+(node/*: any*/).hash = 'e17e290acf8dd9797611a2be88df47b9';
 
 module.exports = node;

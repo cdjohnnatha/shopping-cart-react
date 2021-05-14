@@ -23,10 +23,10 @@ export type cartCheckoutMutationResponse = {|
       +paymentType: PaymentTypesEnum,
       +paymentCardType: PaymentCardEnumType,
       +paymentStatus: PaymentStatusEnumType,
-      +transactionId: ?$ReadOnlyArray<?string>,
+      +transactionId: ?string,
     |},
     +products: $ReadOnlyArray<?{|
-      +_id: string,
+      +productId: string,
       +price: number,
       +quantity: number,
     |}>,
@@ -55,7 +55,7 @@ mutation cartCheckoutMutation(
       transactionId
     }
     products {
-      _id
+      productId
       price
       quantity
     }
@@ -80,14 +80,7 @@ v2 = {
   "kind": "LocalArgument",
   "name": "paymentType"
 },
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "_id",
-  "storageKey": null
-},
-v4 = [
+v3 = [
   {
     "alias": null,
     "args": [
@@ -118,7 +111,13 @@ v4 = [
     "name": "checkout",
     "plural": false,
     "selections": [
-      (v3/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "_id",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -166,7 +165,13 @@ v4 = [
         "name": "products",
         "plural": true,
         "selections": [
-          (v3/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "productId",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -205,7 +210,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "cartCheckoutMutation",
-    "selections": (v4/*: any*/),
+    "selections": (v3/*: any*/),
     "type": "mutation",
     "abstractKey": null
   },
@@ -218,19 +223,19 @@ return {
     ],
     "kind": "Operation",
     "name": "cartCheckoutMutation",
-    "selections": (v4/*: any*/)
+    "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "11b8914fd18d23fd1762ec7e6a21bce7",
+    "cacheID": "c96dec174ffb3b9c50e9dec7c9687d4d",
     "id": null,
     "metadata": {},
     "name": "cartCheckoutMutation",
     "operationKind": "mutation",
-    "text": "mutation cartCheckoutMutation(\n  $paymentCard: PaymentCardEnumType!\n  $paymentType: PaymentTypesEnum!\n  $creditCardNumber: String!\n) {\n  checkout(payment: {paymentCard: $paymentCard, paymentType: $paymentType, creditCardNumber: $creditCardNumber}) {\n    _id\n    payment {\n      paymentType\n      paymentCardType\n      paymentStatus\n      transactionId\n    }\n    products {\n      _id\n      price\n      quantity\n    }\n    total\n  }\n}\n"
+    "text": "mutation cartCheckoutMutation(\n  $paymentCard: PaymentCardEnumType!\n  $paymentType: PaymentTypesEnum!\n  $creditCardNumber: String!\n) {\n  checkout(payment: {paymentCard: $paymentCard, paymentType: $paymentType, creditCardNumber: $creditCardNumber}) {\n    _id\n    payment {\n      paymentType\n      paymentCardType\n      paymentStatus\n      transactionId\n    }\n    products {\n      productId\n      price\n      quantity\n    }\n    total\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '1d07d9a24482d9c9345452a899b328b9';
+(node/*: any*/).hash = 'fbb921da0bfac9f626f431c31d17eb1a';
 
 module.exports = node;

@@ -17,7 +17,7 @@ export type cartActiveQueryResponse = {|
     +status: CartStatusEnumType,
     +quantity: number,
     +products: ?$ReadOnlyArray<?{|
-      +_id: string,
+      +productId: string,
       +price: number,
       +quantity: number,
     |}>,
@@ -38,7 +38,7 @@ query cartActiveQuery {
     status
     quantity
     products {
-      _id
+      productId
       price
       quantity
     }
@@ -51,17 +51,10 @@ var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "_id",
-  "storageKey": null
-},
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "quantity",
   "storageKey": null
 },
-v2 = [
+v1 = [
   {
     "alias": null,
     "args": null,
@@ -70,7 +63,13 @@ v2 = [
     "name": "activeCart",
     "plural": false,
     "selections": [
-      (v0/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "_id",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -85,7 +84,7 @@ v2 = [
         "name": "status",
         "storageKey": null
       },
-      (v1/*: any*/),
+      (v0/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -94,7 +93,13 @@ v2 = [
         "name": "products",
         "plural": true,
         "selections": [
-          (v0/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "productId",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -102,7 +107,7 @@ v2 = [
             "name": "price",
             "storageKey": null
           },
-          (v1/*: any*/)
+          (v0/*: any*/)
         ],
         "storageKey": null
       }
@@ -116,7 +121,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "cartActiveQuery",
-    "selections": (v2/*: any*/),
+    "selections": (v1/*: any*/),
     "type": "query",
     "abstractKey": null
   },
@@ -125,19 +130,19 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "cartActiveQuery",
-    "selections": (v2/*: any*/)
+    "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "f6fa5aa92469cadf27beb9be7fd8527f",
+    "cacheID": "693776668f4a069de8231dce824c41bf",
     "id": null,
     "metadata": {},
     "name": "cartActiveQuery",
     "operationKind": "query",
-    "text": "query cartActiveQuery {\n  activeCart {\n    _id\n    total\n    status\n    quantity\n    products {\n      _id\n      price\n      quantity\n    }\n  }\n}\n"
+    "text": "query cartActiveQuery {\n  activeCart {\n    _id\n    total\n    status\n    quantity\n    products {\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'c8ab96302d5bc4efcaccd2db2770fd52';
+(node/*: any*/).hash = '4f50a41e2376f09b23f170e75caeca22';
 
 module.exports = node;

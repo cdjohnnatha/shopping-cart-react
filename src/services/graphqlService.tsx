@@ -34,6 +34,7 @@ async function graphqlService(text: unknown, variables: unknown) {
     });
 
     const responseJsonObject = await response.json();
+    console.log('responseService',responseJsonObject)
     const [actionNameResponse] = Object.keys(responseJsonObject.data)
     responseService.data = responseJsonObject.data[actionNameResponse];
     if (responseJsonObject.errors?.length > 0) {
