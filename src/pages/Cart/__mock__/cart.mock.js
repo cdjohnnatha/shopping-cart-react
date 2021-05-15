@@ -6,7 +6,6 @@ const CartMock = {
     "clientId" : "6099cd86f1dd766242d7ff2b",
     "products" : [ 
         {
-            "_id" : "609e0c6f055419002ecc0272",
             "price" : 2733,
             "quantity" : 1,
             "productId" : "product-id-1"

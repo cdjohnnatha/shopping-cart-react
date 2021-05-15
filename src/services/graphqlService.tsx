@@ -3,7 +3,7 @@ interface graphqlServiceResponseInterface {
   success: boolean,
   data?: unknown,
   error?: string[] | null
-  errorMessages?: string[] | null
+  errorMessages?: string | null
 }
 
 interface graphqlErrorInterface {
@@ -12,7 +12,7 @@ interface graphqlErrorInterface {
   locations: Array<unknown>
 }
 
-async function graphqlService(text: unknown, variables: unknown) {
+async function graphqlService(text: unknown, variables: unknown): Promise<graphqlServiceResponseInterface> {
   // Fetch data from GitHub's GraphQL API:
   const responseService: graphqlServiceResponseInterface = {
     success: true,
@@ -34,7 +34,6 @@ async function graphqlService(text: unknown, variables: unknown) {
     });
 
     const responseJsonObject = await response.json();
-    console.log('responseService',responseJsonObject)
     const [actionNameResponse] = Object.keys(responseJsonObject.data)
     responseService.data = responseJsonObject.data[actionNameResponse];
     if (responseJsonObject.errors?.length > 0) {

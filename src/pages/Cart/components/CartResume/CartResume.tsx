@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Redirect } from 'react-router';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -11,7 +12,13 @@ interface CartResumeProps {
 
 export const CartResume = ({ payment }: CartResumeProps): JSX.Element => {
   const { totalAmountCartItems, totalCartItems, makeCheckout } = useContext(CartContext);
-
+  
+  const onClickCheckoutHandler = async () => {
+    const result = await makeCheckout(payment);
+    if (result) {
+      window.window.location.href = "/";
+    }
+  }
   return (
     <Grid container>
       <Grid item xs={12} style={{ marginBottom: '1em' }}>
@@ -32,7 +39,7 @@ export const CartResume = ({ payment }: CartResumeProps): JSX.Element => {
           fullWidth
           variant="outlined"
           id="btn-payment"
-          onClick={() => makeCheckout(payment)}
+          onClick={() => onClickCheckoutHandler()}
         >
           Pay
         </Button>

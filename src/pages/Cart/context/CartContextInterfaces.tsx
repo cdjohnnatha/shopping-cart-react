@@ -13,16 +13,13 @@ export interface CartContextInterface {
   loadCartItemsDetails: () => void;
   loadCart: () => void;
   hasProductInCart: (id: string) => boolean;
-  // cartItemsArray: () => CartItemInterface[];
   totalCartItems: () => number;
   isCartEmpty: () => boolean;
-  // itemHasAvailableQuantity: (product: CartItemInterface) => boolean,
-  // itemHasAvailableQuantityToAddCart: (product: CartItemInterface) => boolean,
   updateCartItemQuantity: (id: string, quantity: number) => void,
   totalAmountCartItems: () => number,
   cart: CartInterface,
   products: CartItemInterface[],
   cartItemDetails: ProductKeyValueInterface,
   getCreditCard: (cardName: CreditCardInputOption) => CreditCardInterface,
-  makeCheckout: (payment: CreditCardInputOption) => void,
+  makeCheckout: (payment: CreditCardInputOption) => Promise<boolean>
 };

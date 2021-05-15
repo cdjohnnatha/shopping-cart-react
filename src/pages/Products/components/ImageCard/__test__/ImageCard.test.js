@@ -59,8 +59,6 @@ describe('ImageCard button', () => {
     expect(cardChipPrice.textContent).toBe(`${currency.label}: ${price}`);
     expect(cardDescription.textContent).toBe(description);
     expect(imageElement.src).toContain(image.path);
-
-
   });
 
   it("When product is in cart button should change name", async () => {
@@ -92,6 +90,5 @@ describe('ImageCard button', () => {
     expect(cardChipPrice.textContent).toBe(`${currency.label}: ${price}`);
     expect(cardDescription.textContent).toBe(description);
     expect(imageElement.src).toContain(image.path);
-
   });
 });

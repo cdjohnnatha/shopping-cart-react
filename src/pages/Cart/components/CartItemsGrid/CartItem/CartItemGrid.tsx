@@ -30,6 +30,7 @@ export const CartItemGrid = ({ cartItem }: CartItemGridProps): JSX.Element | nul
     } = cartItemDetails[productId]
 
     const [image] = images.filter((image) => image.type === 'THUMBNAIL');
+    const imagePath = `${process.env.REACT_APP_API_SERVER}${image.path}`;
     const totalAmount = (price * quantity).toFixed(2);
     renderCartItem = (
       <Grid
@@ -43,7 +44,7 @@ export const CartItemGrid = ({ cartItem }: CartItemGridProps): JSX.Element | nul
           <Divider />
         </Grid>
         <Grid item xs={4}>
-          <img src={image.path} alt={image.tags} />
+          <img src={imagePath} alt={image.tags} />
           <Typography variant="h6" noWrap>
             {name}
           </Typography>

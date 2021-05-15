@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from 'react-dom/test-utils';
-import { MemoryRouter } from "react-router-dom";
 
 import Cart from '../../Cart/Cart';
 import ProductsMock from '../../Products/__mock__/products.mock';
@@ -37,11 +36,7 @@ describe('Cart ', () => {
   });
 
   it("Render empty cart view", async () => {
-    // jest.spyOn(global, "fetch").mockImplementation(() =>
-    //   Promise.resolve({
-    //     json: () => Promise.resolve(productsMockData)
-    //   })
-    // );
+   
     act(() => {
       const component = (
         <CartProvider>
