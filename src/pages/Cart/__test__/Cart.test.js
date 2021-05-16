@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils';
 import Cart from '../../Cart/Cart';
 import ProductsMock from '../../Products/__mock__/products.mock';
 import { CartProvider } from '../../Cart/context/CartContext';
+import { NotificationProvider } from '../../../layout/Notifications/NotificationContext';
 
 let container = null;
 let productsMockData = null;
@@ -39,9 +40,11 @@ describe('Cart ', () => {
    
     act(() => {
       const component = (
-        <CartProvider>
-          <Cart />
-        </CartProvider>
+        <NotificationProvider>
+          <CartProvider>
+            <Cart />
+          </CartProvider>
+        </NotificationProvider>
       );
       render(component, container);
     });
