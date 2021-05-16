@@ -1,6 +1,4 @@
 import React, { createContext, useState, useContext } from 'react';
-import { Redirect } from 'react-router';
-
 import { CartInterface, CreditCardInterface, CreditCardInputOption } from '../CartInterface';
 import { ProductInterface, ProductKeyValueInterface } from '../../Products/ProductInterface';
 import { CartContextInterface } from './CartContextInterfaces';
@@ -64,8 +62,12 @@ export const CartProvider = (props: CartProviderProps): JSX.Element => {
     setCart({ ...cart });
   }
   const hasProductInCart = (id: string): boolean => {
-    const hasInCart = cart.products.find(({ productId }) => productId === id)
-    return Boolean(hasInCart);
+    if (!isCartEmpty()) {
+      const hasInCart = cart.products.find(({ productId }) => productId === id)
+      return Boolean(hasInCart);
+
+    }
+    return false;
   };
 
   const addItem = async (productId: string) => {
@@ -126,7 +128,6 @@ export const CartProvider = (props: CartProviderProps): JSX.Element => {
   const updateCartItemQuantity = async (id: string, quantity: number) => {
     const variables = { productId: id, quantity };
     const { success, data, errorMessages } = await graphqlService(CartItemUpdateQuantityMutation.params.text, variables);
-    console.log('[data]', data);
     if (success) {
       setCart({ ...(data as CartInterface) });
     } else {
@@ -146,9 +147,9 @@ export const CartProvider = (props: CartProviderProps): JSX.Element => {
 
   const loadCart = async () => {
     const { success, data, errorMessages } = await graphqlService(CartActiveQuery.params.text, {});
-    if (success) {
+    if (success && data) {
       updateCart(data as CartInterface);
-    } else {
+    } else if (!success) {
       noficationParams.message = errorMessages as string;
       noficationParams.level = NotificationLevelOption.warning;
       showNotification(noficationParams)

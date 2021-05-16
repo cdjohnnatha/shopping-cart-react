@@ -1,70 +1,188 @@
-# Getting Started with Create React App
+# Shopping cart react
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+<!-- vscode-markdown-toc -->
+0. [Requirements](#Requirements)
+1. [Intro](#Intro)
+2. [Shopping-api](#ShoppingApi)
+3. [Installation](#Installation)
+    1. [Node](#Node)
+    2. [Makefile](#Makefile)
+    3. [Docker](#Docker)
+4. [Usage](#Usage)
+5. [Tests](#Tests)
+6. [License](#License)
+9. [Next steps](#NextSteps)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 0. <a name='Requirements'></a>Requirements
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Before of all take a look at .env.sample file which contains the necessary keys for the application works properly.
 
-### `npm test`
+Create a file name .env and set the keys from .env.sample (if you not be using the docker enviroment)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 1. <a name='Intro'></a>Intro
 
-### `npm run build`
+The shopping-frontend is a graphql frontend built in create-react-app used as a basic ecomerce functions, such as:
+1.  List produts.
+2.  Cart manipulation
+    1.  Add and remove
+    2.  Increase/decrease items from cart
+3. Checkout.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Initially it was desined to consider a default user authenticated from backend but not saving any jwt.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1.2. Applications images
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 1.2.1 List view
+![picture](/public/images/list_products.png)
 
-### `npm run eject`
+#### 1.2.2 Cart view
+![picture](/public/images/cart_view.png)
+#### 1.2.3 Checkout
+![picture](/public/images/checkout.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 2. 📦 <a name='ShoppingApi'></a>Shopping Api
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This api it was designed based on the [shopping-api](https://github.com/cdjohnnatha/shopping-api)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# Install and build api and frontend together:
+## 2.1 📦 <a name='folderCreation'></a>Folder creation
+```
+  $ mkdir shopping
+  $ cd shopping
+  $ touch docker-compose.yaml
+```
 
-## Learn More
+## 2.2 Open the docker-compose.yaml and use as base the setup bellow:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+  version: '3.8'
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+services:
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    # environment:
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_shared:/data/db
+  shopping-cart-react:
+    build:
+        context: ./shopping-cart-react
+    command: npm start
+    container_name: shopping-cart-react
+    restart: unless-stopped
+    ports:
+      - 4200:3000
+    enviroment:
+      - REACT_APP_API_URL='http://localhost:3000/api'
+      - REACT_APP_API_SERVER='http://localhost:3000'
+    volumes:
+      - ./shopping-cart-react:/usr/src/app
+      - /shopping-cart-react/node_modules
+  shopping-api:
+    build:
+        context: ./shopping-api
+    command: npm run dev
+    container_name: shopping-api
+    environment:
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    volumes:
+      - ./shopping-api:/usr/src/app
+      # - /shopping-api/node_modules
+volumes:
+  mongo_shared:
+```
+## 2.3 Clone both projects at the directory
 
-### Code Splitting
+```
+    $   git clone https://github.com/cdjohnnatha/shopping-api
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    $ git clone https://github.com/cdjohnnatha/shopping-cart-react
+```
 
-### Analyzing the Bundle Size
+## 2.4 Run the project
+```
+    $   docker-compose up
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
+---
+# Run Standalone project
+## 3. 📦 <a name='Installation'></a>Installation
 
-### Making a Progressive Web App
+You have 3 options to setup the project use one of them.
+1. Docker
+2. Makefile
+3. Node
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 3.0 Dependencies
 
-### Advanced Configuration
+**It is highly recommend to use docker otherwhise you have to consider install [mongodb](https://docs.mongodb.com/manual/installation/) as well**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+* [node](https://nodejs.org/en/)
+* [docker](https://docs.docker.com/engine/install/ubuntu/)
+* [docker-compose](https://docs.docker.com/compose/install/)
 
-### Deployment
+### 3.1 Node
+Inside of project directory run the commands bellow:
+```
+  npm install
+  npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 3.2 Makefile
+Inside of project directory run the commands bellow:
+```
+    make production_docker
+    // or 
+    make install    
+    make production
+```
+### 3.3 Docker
 
-### `npm run build` fails to minify
+#### Dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+***You need to have a docker and docker-compose installed in your machine.***
+
+```
+    docker build -t shopping-cart-react .
+    docker run -p 4200:3000 -t shopping-cart-react
+```
+
+## 4. 📖 <a name='Usage'></a>Usage
+
+At very first beginning it is necessary to create a .env file to the application work properly.
+
+You can take a look at .env.sample where you will find the keys necessary to run the project.
+
+
+## 5. 📄 <a name='Tests'></a>Tests
+
+You can run the applications tests with
+
+```
+  npm test
+```
+
+## 6. 📄 <a name='License'></a>License
+Simple Object Handler is [MIT licensed](./LICENSE).
+
+## 7. 📄 <a name='NextSteps'></a>NextSteps
+1. Create authentication pages such as sign in/sign up
+2. Change the entire project to be in a microservice frontend

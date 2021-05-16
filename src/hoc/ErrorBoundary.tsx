@@ -24,8 +24,6 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, errorInfo);
     console.log("error: " + error);
     console.log("errorInfo: " + JSON.stringify(errorInfo));
     console.log("componentStack: " + errorInfo.componentStack);
