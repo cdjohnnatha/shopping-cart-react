@@ -101,9 +101,11 @@ enum CartStatusEnumType {
 
 #Attributes definition for a product.#
 type CartItemType {
-    productId: ID!
+  productId: ID!
+  GraphQLString: ID!
   price: Float!
   quantity: Int!
+  name: String!,
 }
 
 type mutation {

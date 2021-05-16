@@ -177,6 +177,7 @@ export const CartProvider = (props: CartProviderProps): JSX.Element => {
         setCart({ ...cartInitialState });
         noficationParams.message = 'Your payment was accepted';
         noficationParams.level = NotificationLevelOption.success;
+        return true;
       } else {
         noficationParams.message = 'Your payment was refused';
         noficationParams.level = NotificationLevelOption.warning;
@@ -184,7 +185,7 @@ export const CartProvider = (props: CartProviderProps): JSX.Element => {
       showNotification(noficationParams)
     }
 
-    return true;
+    return false;
   }
 
   return (

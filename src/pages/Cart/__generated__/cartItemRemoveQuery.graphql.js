@@ -19,6 +19,7 @@ export type cartItemRemoveQueryResponse = {|
     +status: CartStatusEnumType,
     +quantity: number,
     +products: ?$ReadOnlyArray<?{|
+      +name: string,
       +productId: string,
       +price: number,
       +quantity: number,
@@ -42,6 +43,7 @@ mutation cartItemRemoveQuery(
     status
     quantity
     products {
+      name
       productId
       price
       quantity
@@ -114,6 +116,13 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "productId",
             "storageKey": null
           },
@@ -150,16 +159,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "4349c6bae5bf3286a77f809250b04879",
+    "cacheID": "1a38f8885f773fab14e0b19d22818385",
     "id": null,
     "metadata": {},
     "name": "cartItemRemoveQuery",
     "operationKind": "mutation",
-    "text": "mutation cartItemRemoveQuery(\n  $productId: ID!\n) {\n  removeCartItem(productId: $productId) {\n    _id\n    total\n    status\n    quantity\n    products {\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
+    "text": "mutation cartItemRemoveQuery(\n  $productId: ID!\n) {\n  removeCartItem(productId: $productId) {\n    _id\n    total\n    status\n    quantity\n    products {\n      name\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '56a966a55179c605ddb7a3a6a1a18e95';
+(node/*: any*/).hash = 'fa69af414906a64667c1d78d4558ad2b';
 
 module.exports = node;

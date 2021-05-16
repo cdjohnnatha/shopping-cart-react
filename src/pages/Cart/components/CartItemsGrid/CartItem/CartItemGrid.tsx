@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { CartItemInterface } from '../../../CartInterface';
 import { CartContext } from '../../../context/CartContext';
 import CartItemQuantitySelect from './ItemQuantitySelect';
-
+import { PriceLabel } from '../../PriceLabel/PriceLabel';
 interface CartItemGridProps {
   cartItem?: CartItemInterface,
 }
@@ -27,11 +27,11 @@ export const CartItemGrid = ({ cartItem }: CartItemGridProps): JSX.Element | nul
       name,
       description,
       maxQuantityPerCustomer,
+      currency,
     } = cartItemDetails[productId]
 
     const [image] = images.filter((image) => image.type === 'THUMBNAIL');
     const imagePath = `${process.env.REACT_APP_API_SERVER}${image.path}`;
-    const totalAmount = (price * quantity).toFixed(2);
     renderCartItem = (
       <Grid
         container
@@ -71,9 +71,11 @@ export const CartItemGrid = ({ cartItem }: CartItemGridProps): JSX.Element | nul
           </Grid>
         </Grid>
         <Grid item xs={2}>
-          <Typography variant="h6" noWrap>
-            {totalAmount}
-          </Typography>
+          <PriceLabel
+            currencyLabel={currency.label}
+            price={price}
+            quantity={quantity}
+          />
         </Grid>
       </Grid>
     )

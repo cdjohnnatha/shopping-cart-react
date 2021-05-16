@@ -20,6 +20,7 @@ export type cartItemUpdateQuantityMutationResponse = {|
     +status: CartStatusEnumType,
     +quantity: number,
     +products: ?$ReadOnlyArray<?{|
+      +name: string,
       +productId: string,
       +price: number,
       +quantity: number,
@@ -44,6 +45,7 @@ mutation cartItemUpdateQuantityMutation(
     status
     quantity
     products {
+      name
       productId
       price
       quantity
@@ -132,6 +134,13 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "productId",
             "storageKey": null
           },
@@ -168,16 +177,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "21a6dfb826f4f5e9a4da82041731adfa",
+    "cacheID": "cd292147a1e17642adb91209a95aa7c3",
     "id": null,
     "metadata": {},
     "name": "cartItemUpdateQuantityMutation",
     "operationKind": "mutation",
-    "text": "mutation cartItemUpdateQuantityMutation(\n  $productId: ID!\n  $quantity: Int!\n) {\n  updateCartItemQuantity(cartItem: {productId: $productId, quantity: $quantity}) {\n    _id\n    total\n    status\n    quantity\n    products {\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
+    "text": "mutation cartItemUpdateQuantityMutation(\n  $productId: ID!\n  $quantity: Int!\n) {\n  updateCartItemQuantity(cartItem: {productId: $productId, quantity: $quantity}) {\n    _id\n    total\n    status\n    quantity\n    products {\n      name\n      productId\n      price\n      quantity\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'e17e290acf8dd9797611a2be88df47b9';
+(node/*: any*/).hash = '6d85dc7b838150d17be3d8974e37bd90';
 
 module.exports = node;

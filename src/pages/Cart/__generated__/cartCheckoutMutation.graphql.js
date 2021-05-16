@@ -26,6 +26,7 @@ export type cartCheckoutMutationResponse = {|
       +transactionId: ?string,
     |},
     +products: $ReadOnlyArray<?{|
+      +name: string,
       +productId: string,
       +price: number,
       +quantity: number,
@@ -55,6 +56,7 @@ mutation cartCheckoutMutation(
       transactionId
     }
     products {
+      name
       productId
       price
       quantity
@@ -169,6 +171,13 @@ v3 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "productId",
             "storageKey": null
           },
@@ -226,16 +235,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "c96dec174ffb3b9c50e9dec7c9687d4d",
+    "cacheID": "a5af80ab72ccd1ff9fec1a4683fd3735",
     "id": null,
     "metadata": {},
     "name": "cartCheckoutMutation",
     "operationKind": "mutation",
-    "text": "mutation cartCheckoutMutation(\n  $paymentCard: PaymentCardEnumType!\n  $paymentType: PaymentTypesEnum!\n  $creditCardNumber: String!\n) {\n  checkout(payment: {paymentCard: $paymentCard, paymentType: $paymentType, creditCardNumber: $creditCardNumber}) {\n    _id\n    payment {\n      paymentType\n      paymentCardType\n      paymentStatus\n      transactionId\n    }\n    products {\n      productId\n      price\n      quantity\n    }\n    total\n  }\n}\n"
+    "text": "mutation cartCheckoutMutation(\n  $paymentCard: PaymentCardEnumType!\n  $paymentType: PaymentTypesEnum!\n  $creditCardNumber: String!\n) {\n  checkout(payment: {paymentCard: $paymentCard, paymentType: $paymentType, creditCardNumber: $creditCardNumber}) {\n    _id\n    payment {\n      paymentType\n      paymentCardType\n      paymentStatus\n      transactionId\n    }\n    products {\n      name\n      productId\n      price\n      quantity\n    }\n    total\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'fbb921da0bfac9f626f431c31d17eb1a';
+(node/*: any*/).hash = '6ac8e41f78957fc2772c5bc97694e47b';
 
 module.exports = node;

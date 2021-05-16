@@ -6,8 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
-
+import { PriceChip } from '../PriceChip/PriceChip';
 import { CartContext } from '../../../Cart/context/CartContext';
 import { ProductInterface, ProductImagesInterface } from '../../ProductInterface';
 
@@ -42,8 +41,6 @@ export default function ImgMediaCard({ product }: ImgMediaCardProps): React.Reac
     onClickButtonHandler = () => removeItem(productId);
   }
   const [image] = images.filter((image: ProductImagesInterface) => image.type === 'LIST');
-
-  const priceLabel = `${currency.label}: ${price.toFixed(2)}`;
   const { path, ...imageProps } = image;
   const serverPath = `${process.env.REACT_APP_API_SERVER}${path}`;
   return (
@@ -74,11 +71,10 @@ export default function ImgMediaCard({ product }: ImgMediaCardProps): React.Reac
         </Typography>
       </CardContent>
       <CardActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Chip
-          variant="outlined"
-          size="small"
-          label={priceLabel}
-          id={`image-card-price-${productId}`}
+        <PriceChip
+          label={currency.label}
+          price={price}
+          productId={productId}
         />
         <Button
           size="small"

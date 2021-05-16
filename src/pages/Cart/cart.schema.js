@@ -8,6 +8,7 @@ graphql`
       status
       quantity
       products{
+        name
         productId
         price
         quantity
@@ -24,6 +25,7 @@ graphql`
       status
       quantity
       products{
+        name
         productId
         price
         quantity
@@ -40,6 +42,7 @@ graphql`
       status
       quantity
       products{
+        name
         productId
         price
         quantity
@@ -56,6 +59,7 @@ graphql`
       status
       quantity
       products{
+        name
         productId
         price
         quantity
@@ -75,6 +79,7 @@ graphql`
         transactionId
       }
       products{
+        name
         productId
         price
         quantity
